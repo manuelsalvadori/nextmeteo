@@ -1,0 +1,40 @@
+.commentBody {
+    display: flex;
+    flex-direction: column;
+    width: clamp(20rem, 90%, 40rem);
+    gap: 0.5rem;
+    background-color: #101010;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.comment {
+    background-color: #080808;
+    border-radius: .6rem;
+    padding: 0.5rem;
+    anchor-name: --comment;
+}
+
+.reply {
+    background-color: #080808;
+    border-radius: .6rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    anchor-name: --reply;
+    anchor-scope: --reply;
+}
+
+.reply::after {
+    content: '';
+    position: absolute;
+    border-bottom-left-radius: .6rem;
+    border: 1px solid white;
+    border-right-style: none;
+    border-top-style: none;
+    margin-left: 0.5rem;
+
+    top: anchor(bottom --comment);
+    left: anchor(left --comment);
+    bottom: anchor(center --reply);
+    right: anchor(left --reply);
+}
