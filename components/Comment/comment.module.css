@@ -6,6 +6,7 @@
     background-color: #101010;
     border-radius: 1rem;
     padding: 0.5rem;
+    anchor-scope: --comment;
 }
 
 .comment {
@@ -20,8 +21,8 @@
     border-radius: .6rem;
     padding: 0.5rem;
     margin-left: 1rem;
-    anchor-name: --reply;
     anchor-scope: --reply;
+    anchor-name: --reply;
 }
 
 .reply::after {
