@@ -1,0 +1,28 @@
+.body {
+    position: relative;
+    grid-area: search;
+    display: flex;
+    justify-content: center;
+}
+
+.resultsList {
+    position: absolute;
+    top: 100%;
+    z-index: 2;
+    background-color: var(--background);
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--text);
+    list-style-type: none;
+    padding: 0;
+}
+
+.result {
+    padding: 0.25rem;
+}
+
+.result:hover {
+    background-color: var(--foreground);
+    cursor: pointer;
+}

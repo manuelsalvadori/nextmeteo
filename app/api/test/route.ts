@@ -1,6 +1,13 @@
-import { getMeteo } from "@/services/openmeteo";
+import { getCurrentMeteo, searchLocation } from "@/services/openmeteo";
 
 export async function GET() {
     //console.log(request);
-    return await getMeteo();
+    const coords = await searchLocation("Springfield", "it");
+    // console.log(coords);
+    // return await getMeteo(coords);
+    const current = await getCurrentMeteo(coords[0]);
+    return new Response(JSON.stringify(current), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+    });
 }

@@ -1,12 +1,13 @@
-import { wmoCodes } from "@/utils/utils";
+import { Coordinates, WeatherData, wmoCodes } from "@/utils/utils";
 import { fetchWeatherApi } from "openmeteo";
+import z from "zod";
 
-export async function getMeteo() {
+export async function getMeteo(coords: Coordinates) {
     //console.log(request);
 
     const params = {
-        latitude: 45.4643,
-        longitude: 9.1895,
+        latitude: coords.latitude,
+        longitude: coords.longitude,
         hourly: ["temperature_2m", "weather_code"],
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         timezone: "auto",
@@ -37,7 +38,7 @@ export async function getMeteo() {
     const daily = response.daily()!;
     const weatherCodes = hourly.variables(1)!.valuesArray()!;
     const weatherDescription = Array.from(weatherCodes)?.map(
-        (code): { description: string; icon: string } => wmoCodes[code],
+        (code): WeatherData => wmoCodes[code],
     );
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
@@ -92,11 +93,118 @@ export async function getMeteo() {
     });
 }
 
-export async function searchLocation(searchTerm: string, language: string) {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${searchTerm}&count=10&language=${language}&format=json`;
+export async function getCurrentMeteo(
+    coords: Coordinates,
+): Promise<CurrentMeteoData> {
+    const params = {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        current: [
+            "temperature_2m",
+            "relative_humidity_2m",
+            "weather_code",
+            "cloud_cover",
+        ],
+        timezone: "auto",
+        forecast_days: 1,
+    };
+    const url = "https://api.open-meteo.com/v1/forecast";
+    const responses = await fetchWeatherApi(url, params);
+
+    // Process first location. Add a for-loop for multiple locations or weather models
+    const response = responses[0];
+    const current = response.current()!;
+
+    // Note: The order of weather variables in the URL query and the indices below need to match!
+    const weatherData = CurrentMeteoSchema.parse({
+        temperature: current.variables(0)!.value(),
+        relativeHumidity: current.variables(1)!.value(),
+        weatherCode: current.variables(2)!.value(),
+        cloudCover: current.variables(3)!.value(),
+    });
+
+    return weatherData;
+}
+
+export async function searchLocation(
+    searchTerm: string,
+    language: string,
+): Promise<LocationData[]> {
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${searchTerm}&count=100&language=${language}&format=json`;
     const responses = await fetch(url);
-    return new Response(JSON.stringify(await responses.json()), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
+    const res = await responses.json();
+    const results = GeoSearchResSchema.parse(res).results;
+    console.log(res.results);
+
+    return results.map((r): LocationData => {
+        return {
+            id: r.id,
+            coords: { latitude: r.latitude, longitude: r.longitude },
+            name: r.name,
+            admin: r.admin1 || "n/a",
+            country: r.country || "n/a",
+        };
     });
 }
+
+const CurrentMeteoSchema = z.object({
+    temperature: z.number(),
+    relativeHumidity: z.number(),
+    weatherCode: z.number(),
+    cloudCover: z.number(),
+});
+
+export type CurrentMeteoData = z.infer<typeof CurrentMeteoSchema>;
+export type LocationData = {
+    id: number;
+    name: string;
+    coords: Coordinates;
+    admin: string;
+    country: string;
+};
+
+const LocationSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+    latitude: z.number(),
+    longitude: z.number(),
+    elevation: z.number(),
+    feature_code: z.string(),
+    country_code: z.string(),
+    admin1_id: z.number().optional(),
+    admin2_id: z.number().optional(),
+    admin3_id: z.number().optional(),
+    admin4_id: z.number().optional(),
+    timezone: z.string(),
+    population: z.number().optional(),
+    country_id: z.number().optional(),
+    country: z.string().optional(),
+    admin1: z.string().optional(),
+    admin2: z.string().optional(),
+    admin3: z.string().optional(),
+    admin4: z.string().optional(),
+});
+
+const GeoSearchResSchema = z.object({
+    results: z.array(LocationSchema),
+});
+// es.
+// {
+//   id: 3173435,
+//   name: "Milano",
+//   latitude: 45.46427,
+//   longitude: 9.18951,
+//   elevation: 122,
+//   feature_code: "PPLA",
+//   country_code: "IT",
+//   admin1_id: 3174618,
+//   admin2_id: 3173434,
+//   admin3_id: 6542283,
+//   timezone: "Europe/Rome",
+//   population: 1371498,
+//   country_id: 3175395,
+//   country: "Italia",
+//   admin1: "Lombardia",
+//   admin2: "Provincia di Milano",
+//   admin3: "Milano",
+// }

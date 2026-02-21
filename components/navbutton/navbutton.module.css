@@ -1,0 +1,24 @@
+.button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 12px;
+    transition: background-color 0.2s ease-in-out;
+    color: var(--text2);
+}
+
+.button:hover {
+    background-color: var(--secondary2);
+}
+
+.button > p {
+    margin: 0;
+}
+
+.active {
+    font-weight: 600;
+    color: var(--text1);
+}

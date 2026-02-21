@@ -1,0 +1,42 @@
+import { wmoCodes } from "@/utils/utils";
+import styles from "./daily.module.css";
+import Image from "next/image";
+import { WiRaindrop } from "react-icons/wi";
+import { WiCloud } from "react-icons/wi";
+import { CurrentMeteoData } from "@/services/openmeteo";
+
+export type DailyProps = {
+    location: string;
+    currentMeteoData: CurrentMeteoData;
+};
+
+export default function Daily({ location, currentMeteoData }: DailyProps) {
+    const wData = wmoCodes[currentMeteoData.weatherCode];
+    return (
+        <div className={styles.day}>
+            <div>
+                <p className={styles.location}>{location}</p>
+                <p className={styles.rain}>
+                    <WiCloud />
+                    Copertura nuvolosa: {currentMeteoData.cloudCover.toFixed(0)}
+                    %
+                </p>
+                <p className={styles.rain}>
+                    <WiRaindrop />
+                    Umidità: {currentMeteoData.relativeHumidity.toFixed(0)}%
+                </p>
+                <p className={styles.temperature}>
+                    {currentMeteoData.temperature.toFixed(0)}°C
+                </p>
+            </div>
+            <Image
+                src={wData.iconLargePath}
+                alt={wData.description}
+                title={wData.description}
+                loading='eager'
+                width={256}
+                height={256}
+            />
+        </div>
+    );
+}
