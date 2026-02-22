@@ -21,7 +21,7 @@ export default function SearchLocation() {
         queryFn: async () => {
             return await searchLocation(debouncedTerm, "it");
         },
-        placeholderData: (previousData) => previousData,
+        placeholderData: (previousData) => (debouncedTerm.length > 2 ? previousData : undefined),
         enabled: debouncedTerm.length > 2,
         staleTime: 1000 * 60 * 5,
     });
@@ -35,6 +35,11 @@ export default function SearchLocation() {
     };
 
     const handleKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Escape") {
+            e.preventDefault();
+            inputRef.current?.blur();
+        }
+
         if (!data?.length) return;
 
         if (e.key === "ArrowDown") {

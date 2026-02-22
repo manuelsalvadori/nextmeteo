@@ -15,24 +15,71 @@
     height: 100%;
     width: auto;
     aspect-ratio: 1;
-    filter: drop-shadow(0 0 3px rgba(67, 74, 83, 0.6))
-        drop-shadow(0 0 6px rgba(67, 74, 83, 0.4))
+    filter: drop-shadow(0 0 3px rgba(67, 74, 83, 0.6)) drop-shadow(0 0 6px rgba(67, 74, 83, 0.4))
         drop-shadow(0 0 12px rgba(67, 74, 83, 0.3));
+    animation: float 3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 
 .location {
     margin: 0;
     font-size: 3rem;
     font-weight: 600;
+    overflow: hidden;
 }
+
+.location > p {
+    margin: 0;
+    animation: slideLeft 0.3s linear;
+}
+
 .rain {
     margin: 0;
     font-size: 1rem;
     color: var(--text2);
 }
+
 .temperature {
-    margin: 0;
     margin-top: auto;
     font-size: 4.5rem;
     font-weight: 600;
+    overflow: hidden;
+    max-height: 4.5rem;
+}
+
+.temperature > p {
+    margin: 0;
+    line-height: 0.9;
+    animation: slideBottom 0.3s linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideBottom {
+    0% {
+        margin-top: 4.5rem;
+    }
+    100% {
+        margin-top: 0px;
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        margin-right: translate(0);
+    }
 }
