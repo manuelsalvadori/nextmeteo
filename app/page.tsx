@@ -11,10 +11,10 @@ type HomeProps = {
 };
 
 export default async function Home({ searchParams }: HomeProps) {
-    const { location, lat, lon } = await searchParams;
+    const { location, lat, lng } = await searchParams;
     const coords: Coordinates = {
         latitude: Number(lat || 45.4643),
-        longitude: Number(lon || 9.1895),
+        longitude: Number(lng || 9.1895),
     };
     const name = Array.isArray(location) ? location[0] : location || "Milano";
 

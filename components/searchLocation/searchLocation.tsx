@@ -1,7 +1,7 @@
 "use client";
 import { LocationData, searchLocation } from "@/services/openmeteo";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useRouter } from "next/navigation";
 import { CircleFlag } from "react-circle-flags";
@@ -12,22 +12,25 @@ export default function SearchLocation() {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [selected, setSelected] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState<number>(-1);
-    const [debouncedQuery] = useDebounce(searchTerm, 500);
+    const [debouncedTerm] = useDebounce(searchTerm, 500);
+    const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
 
     const { data, isLoading } = useQuery({
-        queryKey: ["search", debouncedQuery],
+        queryKey: ["search", debouncedTerm],
         queryFn: async () => {
-            return await searchLocation(debouncedQuery, "it");
+            return await searchLocation(debouncedTerm, "it");
         },
-        enabled: debouncedQuery.length > 2,
+        placeholderData: (previousData) => previousData,
+        enabled: debouncedTerm.length > 2,
         staleTime: 1000 * 60 * 5,
     });
 
     const handleSelect = (data: LocationData) => {
         setSearchTerm("");
+        inputRef.current?.blur();
         router.push(
-            `/?location=${data.name}&lat=${data.coords.latitude}&lon=${data.coords.longitude}`,
+            `/?location=${data.name}&lat=${data.coords.latitude}&lng=${data.coords.longitude}`,
         );
     };
 
@@ -50,17 +53,20 @@ export default function SearchLocation() {
         }
     };
 
+    const isTyping = searchTerm !== debouncedTerm;
+
     return (
         <div className={styles.body}>
             <input
                 type='text'
+                ref={inputRef}
                 id='searchLocation'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onBlur={() => setSelected(false)}
                 onSelect={() => setSelected(true)}
                 onKeyDown={(e) => handleKeys(e)}
-                placeholder='Cerca località...'
+                placeholder={selected ? "" : "Cerca località..."}
             />
             {searchTerm.length > 2 && selected && (
                 <ResultsList
@@ -68,6 +74,7 @@ export default function SearchLocation() {
                     isLoading={isLoading}
                     handleSelect={handleSelect}
                     activeIndex={activeIndex}
+                    isTyping={isTyping}
                 />
             )}
         </div>
@@ -78,11 +85,13 @@ function ResultsList({
     data,
     handleSelect,
     isLoading,
+    isTyping,
     activeIndex,
 }: {
     data: LocationData[] | undefined;
     handleSelect: (res: LocationData) => void;
     isLoading: boolean;
+    isTyping: boolean;
     activeIndex: number;
 }) {
     return (
@@ -102,7 +111,7 @@ function ResultsList({
                 ))
             ) : (
                 <p style={{ justifySelf: "center" }}>
-                    {isLoading ? "Caricamento..." : "Nessun risultato"}
+                    {isLoading || isTyping ? "Caricamento..." : "Nessun risultato"}
                 </p>
             )}
         </ul>

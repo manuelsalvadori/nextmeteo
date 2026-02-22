@@ -8,14 +8,17 @@
 }
 
 .body > input {
+    position: relative;
     background-color: var(--foreground);
-    border-radius: 12px;
+    border-radius: 9999rem;
     min-width: var(--inputWidth);
     border-style: none;
     text-align: center;
+    padding-inline: 1rem;
     color: var(--text);
-    font-family: var(--alanSans), Helvetica, sans-serif;
+    font-family: var(--workSans), Helvetica, sans-serif;
 }
+
 @media ((max-width: 700px)) {
     .body > input {
         min-width: 100%;
@@ -23,11 +26,13 @@
 }
 
 .body > input::placeholder {
-    font-family: var(--alanSans), Helvetica, sans-serif;
+    font-family: var(--workSans), Helvetica, sans-serif;
     color: var(--text);
+    text-align: center;
 }
 
-.body > input:focus-visible {
+.body > input:focus-visible,
+.body > input:hover {
     outline: none;
     border: 1px solid var(--text);
 }

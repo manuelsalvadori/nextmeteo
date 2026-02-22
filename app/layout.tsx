@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 //     fallback: ["ui-sans-serif", "system-ui", "Arial"],
 // });
 
-const alanSans = Montserrat({
+const workSans = Montserrat({
     subsets: ["latin"],
-    variable: "--alanSans",
+    variable: "--workSans",
     display: "swap",
 });
 
@@ -29,7 +29,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang='en' className={alanSans.variable}>
+        <html lang='en' className={workSans.variable}>
             <body>
                 <QueryProvider>
                     <div className='content'>
