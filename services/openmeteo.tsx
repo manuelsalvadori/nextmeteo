@@ -1,3 +1,4 @@
+"use server";
 import { Coordinates, WeatherData, wmoCodes } from "@/utils/utils";
 import { fetchWeatherApi } from "openmeteo";
 import z from "zod";
@@ -37,25 +38,18 @@ export async function getMeteo(coords: Coordinates) {
     const hourly = response.hourly()!;
     const daily = response.daily()!;
     const weatherCodes = hourly.variables(1)!.valuesArray()!;
-    const weatherDescription = Array.from(weatherCodes)?.map(
-        (code): WeatherData => wmoCodes[code],
-    );
+    const weatherDescription = Array.from(weatherCodes)?.map((code): WeatherData => wmoCodes[code]);
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
     const weatherData = {
         hourly: {
             time: Array.from(
                 {
-                    length:
-                        (Number(hourly.timeEnd()) - Number(hourly.time())) /
-                        hourly.interval(),
+                    length: (Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval(),
                 },
                 (_, i) =>
                     new Date(
-                        (Number(hourly.time()) +
-                            i * hourly.interval() +
-                            utcOffsetSeconds) *
-                            1000,
+                        (Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000,
                     ),
             ),
             temperature_2m: hourly.variables(0)!.valuesArray(),
@@ -69,16 +63,11 @@ export async function getMeteo(coords: Coordinates) {
         daily: {
             time: Array.from(
                 {
-                    length:
-                        (Number(daily.timeEnd()) - Number(daily.time())) /
-                        daily.interval(),
+                    length: (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval(),
                 },
                 (_, i) =>
                     new Date(
-                        (Number(daily.time()) +
-                            i * daily.interval() +
-                            utcOffsetSeconds) *
-                            1000,
+                        (Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000,
                     ),
             ),
             weather_code: daily.variables(0)!.valuesArray(),
@@ -93,18 +82,11 @@ export async function getMeteo(coords: Coordinates) {
     });
 }
 
-export async function getCurrentMeteo(
-    coords: Coordinates,
-): Promise<CurrentMeteoData> {
+export async function getCurrentMeteo(coords: Coordinates): Promise<CurrentMeteoData> {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
-        current: [
-            "temperature_2m",
-            "relative_humidity_2m",
-            "weather_code",
-            "cloud_cover",
-        ],
+        current: ["temperature_2m", "relative_humidity_2m", "weather_code", "cloud_cover"],
         timezone: "auto",
         forecast_days: 1,
     };
@@ -134,7 +116,7 @@ export async function searchLocation(
     const responses = await fetch(url);
     const res = await responses.json();
     const results = GeoSearchResSchema.parse(res).results;
-    console.log(res.results);
+    if (!results) return [];
 
     return results.map((r): LocationData => {
         return {
@@ -143,8 +125,17 @@ export async function searchLocation(
             name: r.name,
             admin: r.admin1 || "n/a",
             country: r.country || "n/a",
+            countryCode: r.country_code.toLowerCase(),
         };
     });
+}
+
+export async function searchLocationName(coords: Coordinates) {
+    const url = `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${coords.latitude}&lng=${coords.longitude}&username=nextmeteo&lang=local&cities=cities15000`;
+    const responses = await fetch(url);
+    const res = await responses.json();
+    const names = GeoNameSearchResSchema.parse(res).geonames;
+    return names[0].name;
 }
 
 const CurrentMeteoSchema = z.object({
@@ -161,6 +152,7 @@ export type LocationData = {
     coords: Coordinates;
     admin: string;
     country: string;
+    countryCode: string;
 };
 
 const LocationSchema = z.object({
@@ -168,14 +160,14 @@ const LocationSchema = z.object({
     name: z.string(),
     latitude: z.number(),
     longitude: z.number(),
-    elevation: z.number(),
-    feature_code: z.string(),
+    elevation: z.number().optional(),
+    feature_code: z.string().optional(),
     country_code: z.string(),
     admin1_id: z.number().optional(),
     admin2_id: z.number().optional(),
     admin3_id: z.number().optional(),
     admin4_id: z.number().optional(),
-    timezone: z.string(),
+    timezone: z.string().optional(),
     population: z.number().optional(),
     country_id: z.number().optional(),
     country: z.string().optional(),
@@ -186,9 +178,9 @@ const LocationSchema = z.object({
 });
 
 const GeoSearchResSchema = z.object({
-    results: z.array(LocationSchema),
+    results: z.array(LocationSchema).optional(),
 });
-// es.
+// es. searchLocation
 // {
 //   id: 3173435,
 //   name: "Milano",
@@ -208,3 +200,48 @@ const GeoSearchResSchema = z.object({
 //   admin2: "Provincia di Milano",
 //   admin3: "Milano",
 // }
+
+const LocationNameSchema = z.object({
+    adminCode1: z.string().optional(),
+    lng: z.string().optional(),
+    distance: z.string().optional(),
+    geonameId: z.number().optional(),
+    toponymName: z.string().optional(),
+    countryId: z.string().optional(),
+    fcl: z.string().optional(),
+    population: z.number().optional(),
+    countryCode: z.string().optional(),
+    name: z.string().optional(),
+    fclName: z.string().optional(),
+    countryName: z.string().optional(),
+    fcodeName: z.string().optional(),
+    adminName1: z.string().optional(),
+    lat: z.string().optional(),
+    fcode: z.string().optional(),
+});
+
+const GeoNameSearchResSchema = z.object({
+    geonames: z.array(LocationNameSchema),
+});
+// es. searchLocationName
+// {
+//       "adminCode1": "07",
+//       "lng": "12.51133",
+//       "distance": "0.00056",
+//       "geonameId": 3169070,
+//       "toponymName": "Rome",
+//       "countryId": "3175395",
+//       "fcl": "P",
+//       "population": 2318895,
+//       "countryCode": "IT",
+//       "name": "Roma",
+//       "fclName": "city, village,...",
+//       "adminCodes1": {
+//         "ISO3166_2": "62"
+//       },
+//       "countryName": "Italia",
+//       "fcodeName": "capital of a political entity",
+//       "adminName1": "Lazio",
+//       "lat": "41.89193",
+//       "fcode": "PPLC"
+//     }

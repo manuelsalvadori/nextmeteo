@@ -3,6 +3,8 @@ import style from "./page.module.css";
 import { getCurrentMeteo } from "@/services/openmeteo";
 import { Coordinates } from "@/utils/utils";
 import SearchLocation from "@/components/searchLocation/searchLocation";
+import { GeoLocationHandler } from "@/components/GeoLocationHandler";
+import { Suspense } from "react";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -20,6 +22,9 @@ export default async function Home({ searchParams }: HomeProps) {
 
     return (
         <main className={style.body}>
+            <Suspense fallback={null}>
+                <GeoLocationHandler />
+            </Suspense>
             <SearchLocation />
             <Daily location={name} currentMeteoData={currentMeteo} />
             <div className={style.week}></div>

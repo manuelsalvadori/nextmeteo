@@ -14,6 +14,7 @@
     "next": "16.1.4",
     "openmeteo": "^1.2.3",
     "react": "19.2.3",
+    "react-circle-flags": "^0.0.27",
     "react-dom": "19.2.3",
     "react-icons": "^5.5.0",
     "use-debounce": "^10.1.0",

@@ -1,13 +1,40 @@
 .body {
+    --inputWidth: 50%;
     position: relative;
     grid-area: search;
     display: flex;
     justify-content: center;
+    background-color: var(--background) !important;
+}
+
+.body > input {
+    background-color: var(--foreground);
+    border-radius: 12px;
+    min-width: var(--inputWidth);
+    border-style: none;
+    text-align: center;
+    color: var(--text);
+    font-family: var(--alanSans), Helvetica, sans-serif;
+}
+@media ((max-width: 700px)) {
+    .body > input {
+        min-width: 100%;
+    }
+}
+
+.body > input::placeholder {
+    font-family: var(--alanSans), Helvetica, sans-serif;
+    color: var(--text);
+}
+
+.body > input:focus-visible {
+    outline: none;
+    border: 1px solid var(--text);
 }
 
 .resultsList {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     z-index: 2;
     background-color: var(--background);
     margin: 0;
@@ -16,13 +43,30 @@
     border: 1px solid var(--text);
     list-style-type: none;
     padding: 0;
+    min-width: var(--inputWidth);
 }
 
 .result {
-    padding: 0.25rem;
+    display: flex;
+    padding-block: 0.25rem;
+    padding-inline: 1rem;
+    align-items: center;
 }
 
-.result:hover {
+.result:first-child {
+    padding-top: 0.75rem;
+}
+
+.result:last-child {
+    padding-bottom: 0.75rem;
+}
+
+.result > *:first-child {
+    margin-right: 0.5ch;
+}
+
+.result:hover,
+.active {
     background-color: var(--foreground);
     cursor: pointer;
 }
