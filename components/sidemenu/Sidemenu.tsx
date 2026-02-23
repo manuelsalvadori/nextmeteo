@@ -11,18 +11,8 @@ export default function Sidemenu() {
     return (
         <menu className={style.sidemenu}>
             <Logo />
-            <Navbutton
-                url='/'
-                icon={WiDayCloudy}
-                label='Meteo'
-                isActive={path === "/"}
-            />
-            <Navbutton
-                url='/cities'
-                icon={WiWindDeg}
-                label='Città'
-                isActive={path === "/cities"}
-            />
+            <Navbutton url='/' icon={WiDayCloudy} label='Meteo' isActive={path === "/"} />
+            <Navbutton url='/cities' icon={WiWindDeg} label='Città' isActive={path === "/cities"} />
             <Navbutton
                 url='/cities'
                 icon={IoIosOptions}
@@ -38,7 +28,7 @@ export default function Sidemenu() {
             <Navbutton
                 url='/cities'
                 icon={IoIosOptions}
-                label='Login/logout'
+                label='Login'
                 isActive={path === "/cities"}
             />
         </menu>

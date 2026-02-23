@@ -111,7 +111,8 @@ function ResultsList({
                         }}
                     >
                         <CircleFlag height={20} width={20} countryCode={res.countryCode} />
-                        {res.name} - {res.admin}, {res.country}
+                        {res.name} - {res.admin.charAt(0).toUpperCase() + res.admin.slice(1)},{" "}
+                        {res.country}
                     </li>
                 ))
             ) : (

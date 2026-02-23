@@ -1,10 +1,11 @@
 import Daily from "@/components/daily/daily";
 import style from "./page.module.css";
-import { getCurrentMeteo } from "@/services/openmeteo";
+import { getCurrentMeteo, getHourlyMeteo } from "@/services/openmeteo";
 import { Coordinates } from "@/utils/utils";
 import SearchLocation from "@/components/searchLocation/searchLocation";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
 import { Suspense } from "react";
+import Hourly from "@/components/hourly/hourly";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -19,6 +20,7 @@ export default async function Home({ searchParams }: HomeProps) {
     const name = Array.isArray(location) ? location[0] : location || "Milano";
 
     const currentMeteo = await getCurrentMeteo(coords);
+    const hourlyMeteo = await getHourlyMeteo(coords);
 
     return (
         <main className={style.body}>
@@ -29,7 +31,7 @@ export default async function Home({ searchParams }: HomeProps) {
             <Daily location={name} currentMeteoData={currentMeteo} />
             <div className={style.week}></div>
             <div className={style.data}></div>
-            <div className={style.hours}></div>
+            <Hourly data={hourlyMeteo} />
         </main>
     );
 }

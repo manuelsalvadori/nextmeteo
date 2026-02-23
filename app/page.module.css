@@ -7,9 +7,9 @@
     flex: 1;
     grid-template-areas:
         "search search"
-        "day hours"
-        "week hours"
-        "data hours";
+        "day week"
+        "hours week"
+        "data week";
 }
 
 @media (max-width: 700px) {

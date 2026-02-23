@@ -1,0 +1,26 @@
+.body {
+    grid-area: hours;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    padding: 2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.card > p {
+    margin: 0;
+}
+
+.card > p:first-child {
+    color: var(--text2);
+}
+
+.card > p:not(:first-child) {
+    font-weight: 600;
+}

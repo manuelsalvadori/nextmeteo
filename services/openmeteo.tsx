@@ -82,6 +82,63 @@ export async function getMeteo(coords: Coordinates) {
     });
 }
 
+export async function getHourlyMeteo(coords: Coordinates) {
+    //console.log(request);
+
+    const params = {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        hourly: ["temperature_2m", "weather_code"],
+        timezone: "auto",
+        forecast_days: 1,
+    };
+    const url = "https://api.open-meteo.com/v1/forecast";
+    const responses = await fetchWeatherApi(url, params);
+
+    const response = responses[0];
+
+    // Attributes for timezone and location
+    const latitude = response.latitude();
+    const longitude = response.longitude();
+    const elevation = response.elevation();
+    const timezone = response.timezone();
+    const timezoneAbbreviation = response.timezoneAbbreviation();
+    const utcOffsetSeconds = response.utcOffsetSeconds();
+
+    console.log(
+        `\nCoordinates: ${latitude}°N ${longitude}°E`,
+        `\nElevation: ${elevation}m asl`,
+        `\nTimezone: ${timezone} ${timezoneAbbreviation}`,
+        `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
+    );
+
+    const hourly = response.hourly()!;
+
+    // Note: The order of weather variables in the URL query and the indices below need to match!
+    const rawWeatherData = {
+        time: Array.from(
+            {
+                length: (Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval(),
+            },
+            (_, i) =>
+                new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000),
+        ),
+        temperatures: hourly.variables(0)!.valuesArray(),
+        weatherCodes: hourly.variables(1)!.valuesArray(),
+    };
+
+    const hourlyArray = rawWeatherData.time.map((t, i) => {
+        return {
+            time: t,
+            temperature: rawWeatherData.temperatures![i],
+            weatherCode: rawWeatherData.weatherCodes![i],
+        };
+    });
+
+    const weatherData = HourlyMeteoArraySchema.parse(hourlyArray);
+    return weatherData;
+}
+
 export async function getCurrentMeteo(coords: Coordinates): Promise<CurrentMeteoData> {
     const params = {
         latitude: coords.latitude,
@@ -112,6 +169,7 @@ export async function searchLocation(
     searchTerm: string,
     language: string,
 ): Promise<LocationData[]> {
+    console.log("SERVER");
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${searchTerm}&count=100&language=${language}&format=json`;
     const responses = await fetch(url);
     const res = await responses.json();
@@ -123,8 +181,8 @@ export async function searchLocation(
             id: r.id,
             coords: { latitude: r.latitude, longitude: r.longitude },
             name: r.name,
-            admin: r.admin1 || "n/a",
-            country: r.country || "n/a",
+            admin: r.admin1 || r.admin2 || r.admin3 || r.admin4 || "N/A",
+            country: r.country || "N/A",
             countryCode: r.country_code.toLowerCase(),
         };
     });
@@ -137,6 +195,15 @@ export async function searchLocationName(coords: Coordinates) {
     const names = GeoNameSearchResSchema.parse(res).geonames;
     return names[0].name;
 }
+
+const HourlyMeteoSchema = z.object({
+    time: z.date(),
+    weatherCode: z.number(),
+    temperature: z.number(),
+});
+
+const HourlyMeteoArraySchema = z.array(HourlyMeteoSchema);
+export type HourlyMeteoData = z.infer<typeof HourlyMeteoSchema>;
 
 const CurrentMeteoSchema = z.object({
     temperature: z.number(),
