@@ -13,7 +13,11 @@ export default function LanguageSwitcher() {
     const currentLocale = useLocale() as Locale;
 
     return (
-        <div className={styles.wrapper}>
+        <div
+            className={styles.wrapper}
+            onMouseEnter={() => setShowLangs(true)}
+            onMouseLeave={() => setShowLangs(false)}
+        >
             <button className={styles.button} onClick={() => setShowLangs((prev) => !prev)}>
                 <Image
                     src={`https://hatscripts.github.io/circle-flags/flags/language/${currentLocale}.svg`}
