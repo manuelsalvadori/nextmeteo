@@ -1,4 +1,3 @@
-"use server";
 import { Coordinates, WeatherData, wmoCodes } from "@/utils/utils";
 import { fetchWeatherApi } from "openmeteo";
 import z from "zod";

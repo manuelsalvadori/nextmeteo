@@ -1,28 +1,22 @@
-// "use client";
+"use client";
+import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
 import Link from "next/link";
 import style from "./navbutton.module.css";
 import clsx from "clsx";
-import { IconType } from "react-icons";
 
 export type NavbuttonProps = {
     url: string;
-    icon: IconType;
+    children: ReactNode;
     label: string;
-    isActive: boolean;
 };
 
-export default function Navbutton({
-    url,
-    icon: Icon,
-    label,
-    isActive,
-}: NavbuttonProps) {
+export default function Navbutton({ url, children, label }: NavbuttonProps) {
+    const path = usePathname();
+    const isActive = path === url;
     return (
-        <Link
-            href={url}
-            className={clsx(style.button, isActive && style.active)}
-        >
-            <Icon size={30} />
+        <Link href={url} className={clsx(style.button, isActive && style.active)}>
+            {children}
             <p>{label}</p>
         </Link>
     );

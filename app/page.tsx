@@ -24,14 +24,24 @@ export default async function Home({ searchParams }: HomeProps) {
 
     return (
         <main className={style.body}>
-            <Suspense fallback={null}>
+            <Suspense>
                 <GeoLocationHandler />
             </Suspense>
-            <SearchLocation />
-            <Daily location={name} currentMeteoData={currentMeteo} />
-            <div className={style.week}></div>
-            <div className={style.data}></div>
-            <Hourly data={hourlyMeteo} />
+            <Suspense>
+                <SearchLocation />
+            </Suspense>
+            <Suspense>
+                <Daily location={name} currentMeteoData={currentMeteo} />
+            </Suspense>
+            <Suspense>
+                <div className={style.week}></div>
+            </Suspense>
+            <Suspense>
+                <div className={style.data}></div>
+            </Suspense>
+            <Suspense>
+                <Hourly data={hourlyMeteo} />
+            </Suspense>
         </main>
     );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { LocationData, searchLocation } from "@/services/openmeteo";
+import { LocationData } from "@/services/openmeteo";
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -19,7 +19,8 @@ export default function SearchLocation() {
     const { data, isLoading } = useQuery({
         queryKey: ["search", debouncedTerm],
         queryFn: async () => {
-            return await searchLocation(debouncedTerm, "it");
+            const res = await fetch(`/api/searchLocation?query=${debouncedTerm}&lng=it`);
+            return res.json();
         },
         placeholderData: (previousData) => (debouncedTerm.length > 2 ? previousData : undefined),
         enabled: debouncedTerm.length > 2,

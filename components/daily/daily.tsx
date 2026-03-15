@@ -33,6 +33,11 @@ export default function Daily({ location, currentMeteoData }: DailyProps) {
                     </p>
                 </div>
             </div>
+            <div>
+                <p>{wData.description}</p>
+                <p>Massima 30C</p>
+                <p>Minima 10C</p>
+            </div>
             <Image
                 src={wData.iconLargePath}
                 alt={wData.description}
