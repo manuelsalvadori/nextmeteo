@@ -2,6 +2,7 @@ import { HourlyMeteoData } from "@/services/openmeteo";
 import styles from "./hourly.module.css";
 import { wmoCodes } from "@/utils/utils";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export type HourlyProps = {
     data: HourlyMeteoData[];
@@ -22,14 +23,18 @@ type HourlyCardProps = {
 };
 
 function HourlyCard({ data }: HourlyCardProps) {
-    const wData = wmoCodes[data.weatherCode];
+    const t = useTranslations("WeatherDesc");
+
+    const wCode = data.weatherCode;
+    const wData = wmoCodes[wCode];
+    const description = t(wCode.toString());
     return (
         <div className={styles.card}>
             <p>{data.time.getHours()}:00</p>
             <Image
                 src={wData.iconSmallPath}
-                alt={wData.description}
-                title={wData.description}
+                alt={description}
+                title={description}
                 width={32}
                 height={32}
             />

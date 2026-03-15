@@ -1,0 +1,32 @@
+{
+    "WeatherDesc": {
+        "0": "Sereno",
+        "1": "Quasi sereno",
+        "2": "Poco nuvoloso",
+        "3": "Coperto",
+        "45": "Nebbia",
+        "48": "Nebbia con brina",
+        "51": "Pioviggine debole",
+        "53": "Pioviggine",
+        "55": "Pioviggine forte",
+        "80": "Rovesci di pioggia deboli",
+        "81": "Rovesci di pioggia",
+        "82": "Rovesci di pioggia forti",
+        "61": "Pioggia debole",
+        "63": "Pioggia",
+        "65": "Pioggia forte",
+        "56": "Pioviggine gelida debole",
+        "57": "Pioviggine gelida",
+        "66": "Pioggia gelida debole",
+        "67": "Pioggia gelida",
+        "71": "Neve debole",
+        "73": "Neve",
+        "75": "Neve forte",
+        "77": "Neve granulosa",
+        "85": "Rovesci di neve deboli",
+        "86": "Rovesci di neve",
+        "95": "Temporale",
+        "96": "Temporale con grandine",
+        "99": "Temporale forte con grandine"
+    }
+}

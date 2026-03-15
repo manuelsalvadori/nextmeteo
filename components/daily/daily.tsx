@@ -4,6 +4,7 @@ import Image from "next/image";
 import { WiRaindrop } from "react-icons/wi";
 import { WiCloud } from "react-icons/wi";
 import { CurrentMeteoData } from "@/services/openmeteo";
+import { useTranslations } from "next-intl";
 
 export type DailyProps = {
     location: string;
@@ -11,7 +12,12 @@ export type DailyProps = {
 };
 
 export default function Daily({ location, currentMeteoData }: DailyProps) {
-    const wData = wmoCodes[currentMeteoData.weatherCode];
+    const t = useTranslations("WeatherDesc");
+
+    const wCode = currentMeteoData.weatherCode;
+    const wData = wmoCodes[wCode];
+    const description = t(wCode.toString());
+
     return (
         <div className={styles.day}>
             <div>
@@ -34,14 +40,14 @@ export default function Daily({ location, currentMeteoData }: DailyProps) {
                 </div>
             </div>
             <div>
-                <p>{wData.description}</p>
+                <p>{description}</p>
                 <p>Massima 30C</p>
                 <p>Minima 10C</p>
             </div>
             <Image
                 src={wData.iconLargePath}
-                alt={wData.description}
-                title={wData.description}
+                alt={description}
+                title={description}
                 loading='eager'
                 width={256}
                 height={256}

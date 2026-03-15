@@ -80,6 +80,6 @@
         transform: translateX(-100%);
     }
     100% {
-        margin-right: translate(0);
+        transform: translate(0);
     }
 }

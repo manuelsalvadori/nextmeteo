@@ -1,4 +1,5 @@
-import { Coordinates, WeatherData, wmoCodes } from "@/utils/utils";
+"server only";
+import { Coordinates, WeatherIcons, wmoCodes } from "@/utils/utils";
 import { fetchWeatherApi } from "openmeteo";
 import z from "zod";
 
@@ -37,7 +38,9 @@ export async function getMeteo(coords: Coordinates) {
     const hourly = response.hourly()!;
     const daily = response.daily()!;
     const weatherCodes = hourly.variables(1)!.valuesArray()!;
-    const weatherDescription = Array.from(weatherCodes)?.map((code): WeatherData => wmoCodes[code]);
+    const weatherDescription = Array.from(weatherCodes)?.map(
+        (code): WeatherIcons => wmoCodes[code as WeatherCode],
+    );
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
     const weatherData = {
@@ -195,9 +198,42 @@ export async function searchLocationName(coords: Coordinates) {
     return names[0].name;
 }
 
+export const WeatherCodeSchema = z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(45),
+    z.literal(48),
+    z.literal(51),
+    z.literal(53),
+    z.literal(55),
+    z.literal(56),
+    z.literal(57),
+    z.literal(61),
+    z.literal(63),
+    z.literal(65),
+    z.literal(66),
+    z.literal(67),
+    z.literal(71),
+    z.literal(73),
+    z.literal(75),
+    z.literal(77),
+    z.literal(80),
+    z.literal(81),
+    z.literal(82),
+    z.literal(85),
+    z.literal(86),
+    z.literal(95),
+    z.literal(96),
+    z.literal(99),
+]);
+
+export type WeatherCode = z.infer<typeof WeatherCodeSchema>;
+
 const HourlyMeteoSchema = z.object({
     time: z.date(),
-    weatherCode: z.number(),
+    weatherCode: WeatherCodeSchema,
     temperature: z.number(),
 });
 
@@ -207,10 +243,9 @@ export type HourlyMeteoData = z.infer<typeof HourlyMeteoSchema>;
 const CurrentMeteoSchema = z.object({
     temperature: z.number(),
     relativeHumidity: z.number(),
-    weatherCode: z.number(),
+    weatherCode: WeatherCodeSchema,
     cloudCover: z.number(),
 });
-
 export type CurrentMeteoData = z.infer<typeof CurrentMeteoSchema>;
 export type LocationData = {
     id: number;

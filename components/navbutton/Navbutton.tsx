@@ -1,7 +1,6 @@
 "use client";
-import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/navigation";
 import style from "./navbutton.module.css";
 import clsx from "clsx";
 

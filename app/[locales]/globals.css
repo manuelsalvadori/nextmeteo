@@ -32,3 +32,11 @@ body {
 a {
     text-decoration: none;
 }
+
+button {
+    all: unset;
+}
+button:focus,
+button:focus-visible {
+    outline: -webkit-focus-ring-color auto 5px;
+}

@@ -6,12 +6,13 @@
     width: 4rem;
     height: 4rem;
     border-radius: 12px;
-    transition: background-color 0.2s ease-in-out;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     color: var(--text2);
 }
 
 .button:hover {
     background-color: var(--secondary2);
+    color: var(--text);
 }
 
 .button > p {
@@ -20,5 +21,5 @@
 
 .active {
     font-weight: 600;
-    color: var(--text1);
+    color: var(--text);
 }

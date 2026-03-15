@@ -3,6 +3,7 @@ import { IoIosOptions } from "react-icons/io";
 import Navbutton from "../navbutton/Navbutton";
 import Logo from "../logo/Logo";
 import style from "./sidemenu.module.css";
+import LanguageSwitcher from "../languageSwitcher/languageSwitcher";
 
 export default function Sidemenu() {
     return (
@@ -23,6 +24,7 @@ export default function Sidemenu() {
             <Navbutton url='/cities' label='Login'>
                 <IoIosOptions size={30} />
             </Navbutton>
+            <LanguageSwitcher />
         </menu>
     );
 }

@@ -1,0 +1,55 @@
+.wrapper {
+    position: relative;
+    margin-top: auto;
+    isolation: isolate;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text2);
+    gap: 0.25rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--secondary2);
+    color: var(--text);
+}
+
+.button > p {
+    margin: 0;
+}
+
+.langOptions {
+    position: absolute;
+    bottom: 0;
+    left: calc(100% + 1rem);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    background-color: var(--foreground);
+    border-radius: 10px;
+    border: 1px solid var(--text);
+    z-index: -1;
+}
+
+.langOption {
+    display: flex;
+    color: var(--text2);
+    gap: 0.25rem;
+    align-items: center;
+    padding: 0.25rem;
+    border-radius: 6px;
+}
+
+.langOption:hover {
+    background-color: var(--secondary2);
+    color: var(--text);
+}

@@ -3,7 +3,7 @@ import { LocationData } from "@/services/openmeteo";
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { CircleFlag } from "react-circle-flags";
 import styles from "./searchLocation.module.css";
 import clsx from "clsx";

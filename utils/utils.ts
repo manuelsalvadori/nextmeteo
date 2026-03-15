@@ -1,91 +1,61 @@
-function wmoInterpretation(description: Weather, icon: string): WeatherData {
+import { WeatherCode } from "@/services/openmeteo";
+
+function wmoIcons(icon: string): WeatherIcons {
     return {
-        description,
         iconSmallPath: `/weatherIcons/${icon}@4x.png`,
         iconLargePath: `/weatherIcons/${icon}@16x.png`,
     };
 }
 
-export const wmoCodes: Record<number, WeatherData> = {
-    0: wmoInterpretation("Clear", "clear"),
+export const wmoCodes: Record<WeatherCode, WeatherIcons> = {
+    0: wmoIcons("clear"),
 
-    1: wmoInterpretation("Mostly Clear", "mostly-clear"),
-    2: wmoInterpretation("Partly Cloudy", "partly-cloudy"),
-    3: wmoInterpretation("Overcast", "overcast"),
+    1: wmoIcons("mostly-clear"),
+    2: wmoIcons("partly-cloudy"),
+    3: wmoIcons("overcast"),
 
-    45: wmoInterpretation("Fog", "fog"),
-    48: wmoInterpretation("Icy Fog", "rime-fog"),
+    45: wmoIcons("fog"),
+    48: wmoIcons("rime-fog"),
 
-    51: wmoInterpretation("Light Drizzle", "light-drizzle"),
-    53: wmoInterpretation("Drizzle", "moderate-drizzle"),
-    55: wmoInterpretation("Heavy Drizzle", "dense-drizzle"),
+    51: wmoIcons("light-drizzle"),
+    53: wmoIcons("moderate-drizzle"),
+    55: wmoIcons("dense-drizzle"),
 
-    80: wmoInterpretation("Light Showers", "light-rain"),
-    81: wmoInterpretation("Showers", "moderate-rain"),
-    82: wmoInterpretation("Heavy Showers", "heavy-rain"),
+    80: wmoIcons("light-rain"),
+    81: wmoIcons("moderate-rain"),
+    82: wmoIcons("heavy-rain"),
 
-    61: wmoInterpretation("Light Rain", "light-rain"),
-    63: wmoInterpretation("Rain", "moderate-rain"),
-    65: wmoInterpretation("Heavy Rain", "heavy-rain"),
+    61: wmoIcons("light-rain"),
+    63: wmoIcons("moderate-rain"),
+    65: wmoIcons("heavy-rain"),
 
-    56: wmoInterpretation("Light Freezing Drizzle", "light-freezing-drizzle"),
-    57: wmoInterpretation("Freezing Drizzle", "dense-freezing-drizzle"),
+    56: wmoIcons("light-freezing-drizzle"),
+    57: wmoIcons("dense-freezing-drizzle"),
 
-    66: wmoInterpretation("Light Freezing Rain", "light-freezing-rain"),
-    67: wmoInterpretation("Freezing Rain", "heavy-freezing-rain"),
+    66: wmoIcons("light-freezing-rain"),
+    67: wmoIcons("heavy-freezing-rain"),
 
-    71: wmoInterpretation("Light Snow", "slight-snowfall"),
-    73: wmoInterpretation("Snow", "moderate-snowfall"),
-    75: wmoInterpretation("Heavy Snow", "heavy-snowfall"),
+    71: wmoIcons("slight-snowfall"),
+    73: wmoIcons("moderate-snowfall"),
+    75: wmoIcons("heavy-snowfall"),
 
-    77: wmoInterpretation("Snow Grains", "snowflake"),
+    77: wmoIcons("snowflake"),
 
-    85: wmoInterpretation("Light Snow Showers", "slight-snowfall"),
-    86: wmoInterpretation("Snow Showers", "heavy-snowfall"),
+    85: wmoIcons("slight-snowfall"),
+    86: wmoIcons("heavy-snowfall"),
 
-    95: wmoInterpretation("Thunderstorm", "thunderstorm"),
+    95: wmoIcons("thunderstorm"),
 
-    96: wmoInterpretation("Light T-storm w/ Hail", "thunderstorm-with-hail"),
-    99: wmoInterpretation("T-storm w/ Hail", "thunderstorm-with-hail"),
+    96: wmoIcons("thunderstorm-with-hail"),
+    99: wmoIcons("thunderstorm-with-hail"),
 };
-
-export type Weather =
-    | "Clear"
-    | "Mostly Clear"
-    | "Partly Cloudy"
-    | "Overcast"
-    | "Fog"
-    | "Icy Fog"
-    | "Light Drizzle"
-    | "Drizzle"
-    | "Heavy Drizzle"
-    | "Light Showers"
-    | "Showers"
-    | "Heavy Showers"
-    | "Light Rain"
-    | "Rain"
-    | "Heavy Rain"
-    | "Light Freezing Drizzle"
-    | "Freezing Drizzle"
-    | "Light Freezing Rain"
-    | "Freezing Rain"
-    | "Light Snow"
-    | "Snow"
-    | "Heavy Snow"
-    | "Snow Grains"
-    | "Light Snow Showers"
-    | "Snow Showers"
-    | "Thunderstorm"
-    | "T-storm w/ Hail"
-    | "Light T-storm w/ Hail";
 
 export type Coordinates = {
     longitude: number;
     latitude: number;
 };
 
-export type WeatherData = {
-    description: Weather;
+export type WeatherIcons = {
     iconLargePath: string;
     iconSmallPath: string;
 };
