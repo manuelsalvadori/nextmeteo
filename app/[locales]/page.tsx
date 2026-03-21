@@ -1,6 +1,6 @@
 import Daily from "@/components/daily/daily";
 import style from "./page.module.css";
-import { getCurrentMeteo, getHourlyMeteo } from "@/services/openmeteo";
+import { getCurrentMeteo, getHourlyMeteo, getWeeklyMeteo } from "@/services/openmeteo";
 import { Coordinates } from "@/utils/utils";
 import SearchLocation from "@/components/searchLocation/searchLocation";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
@@ -21,6 +21,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
     const currentMeteo = await getCurrentMeteo(coords);
     const hourlyMeteo = await getHourlyMeteo(coords);
+    const weeklyMeteo = await getWeeklyMeteo(coords);
 
     return (
         <main className={style.body}>

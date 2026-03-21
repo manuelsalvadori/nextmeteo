@@ -1,21 +1,40 @@
 .day {
     grid-area: day;
-    padding: 2rem;
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
 }
 
-.day > div {
+.mainSection {
+    padding: 2rem;
+    display: flex;
+    background-color: var(--foreground);
+    border-radius: 12px;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: var(--foreground);
+    border-radius: 12px;
+    max-width: 10rem;
+    min-width: 0;
+    color: var(--text2);
+}
+
+.mainSection > div {
     display: flex;
     flex-direction: column;
 }
 
-.day > img {
+.mainSection > img {
     align-self: center;
     height: 90%;
     width: auto;
     aspect-ratio: 1;
-    filter: drop-shadow(0 0 3px rgba(67, 74, 83, 0.6)) drop-shadow(0 0 6px rgba(67, 74, 83, 0.4))
+    filter: drop-shadow(0 0 3px rgba(41, 60, 83, 0.6)) drop-shadow(0 0 6px rgba(67, 74, 83, 0.4))
         drop-shadow(0 0 12px rgba(67, 74, 83, 0.3));
     animation: float 3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }

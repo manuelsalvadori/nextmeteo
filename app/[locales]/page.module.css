@@ -28,21 +28,24 @@
     }
 }
 
-.body > div {
+.search {
+    grid-area: search;
     background-color: var(--foreground);
     border-radius: 12px;
 }
 
-.search {
-    grid-area: search;
-}
-
 .week {
     grid-area: week;
+    background-color: var(--foreground);
+    border-radius: 12px;
 }
 .data {
     grid-area: data;
+    background-color: var(--foreground);
+    border-radius: 12px;
 }
 .hours {
     grid-area: hours;
+    background-color: var(--foreground);
+    border-radius: 12px;
 }
