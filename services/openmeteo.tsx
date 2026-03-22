@@ -193,12 +193,19 @@ export async function getHourlyMeteo(coords: Coordinates) {
     return weatherData;
 }
 
-export async function getCurrentMeteo(coords: Coordinates): Promise<CurrentMeteoData> {
+export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
         current: ["temperature_2m", "relative_humidity_2m", "weather_code", "cloud_cover"],
-        timezone: "UTC",
+        daily: [
+            "temperature_2m_max",
+            "temperature_2m_min",
+            "wind_speed_10m_max",
+            "wind_direction_10m_dominant",
+            "uv_index_max",
+        ],
+        timezone: "auto",
         forecast_days: 1,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
@@ -207,6 +214,7 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<CurrentMeteo
     // Process first location. Add a for-loop for multiple locations or weather models
     const response = responses[0];
     const current = response.current()!;
+    const daily = response.daily()!;
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
     const weatherData = CurrentMeteoSchema.parse({
@@ -216,7 +224,15 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<CurrentMeteo
         cloudCover: current.variables(3)!.value(),
     });
 
-    return weatherData;
+    const dailyData = CurrentDailyMeteoSchema.parse({
+        temperatureMax: daily.variables(0)!.valuesArray()![0],
+        temperatureMin: daily.variables(1)!.valuesArray()![0],
+        windSpeedMax: daily.variables(2)!.valuesArray()![0],
+        windDirection: daily.variables(3)!.valuesArray()![0],
+        uvIndexMax: daily.variables(4)!.valuesArray()![0],
+    });
+
+    return { currentMeteoData: weatherData, dailyMeteoData: dailyData };
 }
 
 export async function searchLocation(
@@ -283,6 +299,7 @@ export const WeatherCodeSchema = z.union([
 
 export type WeatherCode = z.infer<typeof WeatherCodeSchema>;
 
+// weekly schemas
 const DailyMeteoSchema = z.object({
     time: z.date(),
     weatherCode: WeatherCodeSchema,
@@ -291,6 +308,7 @@ const DailyMeteoSchema = z.object({
 });
 const WeeklyMeteoSchema = z.array(DailyMeteoSchema);
 
+// hourly schemas
 const HourlyMeteoSchema = z.object({
     time: z.date(),
     weatherCode: WeatherCodeSchema,
@@ -300,6 +318,7 @@ const HourlyMeteoSchema = z.object({
 const HourlyMeteoArraySchema = z.array(HourlyMeteoSchema);
 export type HourlyMeteoData = z.infer<typeof HourlyMeteoSchema>;
 
+// daily schemas
 const CurrentMeteoSchema = z.object({
     temperature: z.number(),
     relativeHumidity: z.number(),
@@ -308,6 +327,21 @@ const CurrentMeteoSchema = z.object({
 });
 export type CurrentMeteoData = z.infer<typeof CurrentMeteoSchema>;
 
+const CurrentDailyMeteoSchema = z.object({
+    temperatureMax: z.number(),
+    temperatureMin: z.number(),
+    windSpeedMax: z.number(),
+    windDirection: z.number(),
+    uvIndexMax: z.number(),
+});
+export type CurrentDailyMeteoData = z.infer<typeof CurrentDailyMeteoSchema>;
+
+export type DailyData = {
+    currentMeteoData: CurrentMeteoData;
+    dailyMeteoData: CurrentDailyMeteoData;
+};
+
+// location schemas
 export type LocationData = {
     id: number;
     name: string;

@@ -32,7 +32,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <SearchLocation />
             </Suspense>
             <Suspense>
-                <Daily location={name} currentMeteoData={currentMeteo} />
+                <Daily location={name} dailyData={currentMeteo} />
             </Suspense>
             <Suspense>
                 <div className={style.week}></div>

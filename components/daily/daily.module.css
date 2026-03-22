@@ -13,15 +13,48 @@
     flex: 1;
 }
 
+.mainSection > div > p {
+    display: flex;
+    align-items: center;
+}
+
 .infoSection {
     display: flex;
     flex-direction: column;
     padding: 2rem;
     background-color: var(--foreground);
     border-radius: 12px;
-    max-width: 10rem;
+    width: 14rem;
     min-width: 0;
     color: var(--text2);
+    gap: 0.25rem;
+}
+
+.infoSection > p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.infoSection > p > span {
+    display: flex;
+    align-items: center;
+}
+
+.infoSection > p:first-child {
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.infoSection > p:nth-child(2) {
+    margin-bottom: auto;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.infoSection > p:last-child > span:last-child > svg {
+    rotate: var(--degrees);
 }
 
 .mainSection > div {

@@ -1,19 +1,23 @@
 import { wmoCodes } from "@/utils/utils";
 import styles from "./daily.module.css";
 import Image from "next/image";
-import { WiRaindrop } from "react-icons/wi";
+import { WiHot, WiRaindrop, WiStrongWind, WiThermometer, WiWindDeg } from "react-icons/wi";
 import { WiCloud } from "react-icons/wi";
-import { CurrentMeteoData } from "@/services/openmeteo";
-import { useTranslations } from "next-intl";
+import { DailyData } from "@/services/openmeteo";
+import { getTranslations } from "next-intl/server";
 
 export type DailyProps = {
     location: string;
-    currentMeteoData: CurrentMeteoData;
+    dailyData: DailyData;
 };
 
-export default function Daily({ location, currentMeteoData }: DailyProps) {
-    const t = useTranslations("WeatherDesc");
+const today = new Date();
 
+export default async function Daily({ location, dailyData }: DailyProps) {
+    const t = await getTranslations("WeatherDesc");
+    const td = await getTranslations("Weekdays");
+
+    const { currentMeteoData, dailyMeteoData } = dailyData;
     const wCode = currentMeteoData.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString());
@@ -28,15 +32,15 @@ export default function Daily({ location, currentMeteoData }: DailyProps) {
 
                     <p className={styles.rain}>
                         <WiCloud />
-                        Copertura nuvolosa: {currentMeteoData.cloudCover.toFixed(0)}%
+                        Copertura nuvolosa: {Math.round(currentMeteoData.cloudCover)}%
                     </p>
                     <p className={styles.rain}>
                         <WiRaindrop />
-                        Umidità: {currentMeteoData.relativeHumidity.toFixed(0)}%
+                        Umidità: {Math.round(currentMeteoData.relativeHumidity)}%
                     </p>
                     <div className={styles.temperature}>
                         <p key={currentMeteoData.temperature}>
-                            {currentMeteoData.temperature.toFixed(0)}°C
+                            {Math.round(currentMeteoData.temperature)}°C
                         </p>
                     </div>
                 </div>
@@ -50,9 +54,46 @@ export default function Daily({ location, currentMeteoData }: DailyProps) {
                 />
             </div>
             <div className={styles.infoSection}>
-                <p>{description}</p>
-                <p>Massima 30C</p>
-                <p>Minima 10C</p>
+                <p>{td(today.getDay().toString())}</p>
+                <p>{today.toLocaleDateString()}</p>
+                <p>
+                    <span>
+                        <WiThermometer />
+                        Max
+                    </span>
+                    <span>{Math.round(dailyMeteoData.temperatureMax)}°C</span>
+                </p>
+                <p>
+                    <span>
+                        <WiThermometer />
+                        Min
+                    </span>
+                    <span>{Math.round(dailyMeteoData.temperatureMin)}°C</span>
+                </p>
+                <p>
+                    <span>
+                        <WiHot />
+                        UV index
+                    </span>
+                    <span>{dailyMeteoData.uvIndexMax.toFixed(1)}</span>
+                </p>
+                <p>
+                    <span>
+                        <WiStrongWind />
+                        Wind
+                    </span>
+                    <span>
+                        <WiWindDeg
+                            style={
+                                {
+                                    "--degrees": Math.round(dailyMeteoData.windDirection) + "deg",
+                                } as React.CSSProperties
+                            }
+                            title={Math.round(dailyMeteoData.windDirection) + "°"}
+                        />{" "}
+                        {Math.round(dailyMeteoData.windSpeedMax)} km/h
+                    </span>
+                </p>
             </div>
         </div>
     );
