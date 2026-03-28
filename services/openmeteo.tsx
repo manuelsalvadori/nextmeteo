@@ -204,6 +204,7 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
             "wind_speed_10m_max",
             "wind_direction_10m_dominant",
             "uv_index_max",
+            "daylight_duration",
         ],
         timezone: "auto",
         forecast_days: 1,
@@ -230,6 +231,7 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
         windSpeedMax: daily.variables(2)!.valuesArray()![0],
         windDirection: daily.variables(3)!.valuesArray()![0],
         uvIndexMax: daily.variables(4)!.valuesArray()![0],
+        daylightDuration: daily.variables(5)!.valuesArray()![0],
     });
 
     return { currentMeteoData: weatherData, dailyMeteoData: dailyData };
@@ -307,6 +309,8 @@ const DailyMeteoSchema = z.object({
     temperatureMin: z.number(),
 });
 const WeeklyMeteoSchema = z.array(DailyMeteoSchema);
+export type DailyMeteoData = z.infer<typeof DailyMeteoSchema>;
+export type WeeklyMeteoData = z.infer<typeof WeeklyMeteoSchema>;
 
 // hourly schemas
 const HourlyMeteoSchema = z.object({
@@ -333,6 +337,7 @@ const CurrentDailyMeteoSchema = z.object({
     windSpeedMax: z.number(),
     windDirection: z.number(),
     uvIndexMax: z.number(),
+    daylightDuration: z.number(),
 });
 export type CurrentDailyMeteoData = z.infer<typeof CurrentDailyMeteoSchema>;
 

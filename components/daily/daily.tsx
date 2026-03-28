@@ -1,10 +1,11 @@
-import { wmoCodes } from "@/utils/utils";
+import { secondsToHours, wmoCodes } from "@/utils/utils";
 import styles from "./daily.module.css";
 import Image from "next/image";
 import { WiHot, WiRaindrop, WiStrongWind, WiThermometer, WiWindDeg } from "react-icons/wi";
 import { WiCloud } from "react-icons/wi";
 import { DailyData } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
+import { GoSun } from "react-icons/go";
 
 export type DailyProps = {
     location: string;
@@ -16,11 +17,14 @@ const today = new Date();
 export default async function Daily({ location, dailyData }: DailyProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
+    const tm = await getTranslations("DayInfo");
 
     const { currentMeteoData, dailyMeteoData } = dailyData;
     const wCode = currentMeteoData.weatherCode;
     const wData = wmoCodes[wCode];
-    const description = t(wCode.toString());
+    const description = t(wCode.toString() as never);
+    const { hours, minutes } = secondsToHours(dailyMeteoData.daylightDuration);
+    const daylightDuration = tm("duration", { hours: hours, minutes: minutes });
 
     return (
         <div className={styles.day}>
@@ -49,38 +53,45 @@ export default async function Daily({ location, dailyData }: DailyProps) {
                     alt={description}
                     title={description}
                     loading='eager'
-                    width={256}
-                    height={256}
+                    width={200}
+                    height={200}
                 />
             </div>
             <div className={styles.infoSection}>
-                <p>{td(today.getDay().toString())}</p>
+                <p>{td(today.getDay().toString() as never)}</p>
                 <p>{today.toLocaleDateString()}</p>
                 <p>
                     <span>
                         <WiThermometer />
-                        Max
+                        {tm("max")}
                     </span>
                     <span>{Math.round(dailyMeteoData.temperatureMax)}°C</span>
                 </p>
                 <p>
                     <span>
                         <WiThermometer />
-                        Min
+                        {tm("min")}
                     </span>
                     <span>{Math.round(dailyMeteoData.temperatureMin)}°C</span>
                 </p>
                 <p>
                     <span>
                         <WiHot />
-                        UV index
+                        {tm("uv")}
                     </span>
                     <span>{dailyMeteoData.uvIndexMax.toFixed(1)}</span>
                 </p>
                 <p>
                     <span>
+                        <GoSun />
+                        {tm("daylight")}
+                    </span>
+                    <span>{daylightDuration}</span>
+                </p>
+                <p>
+                    <span>
                         <WiStrongWind />
-                        Wind
+                        {tm("wind")}
                     </span>
                     <span>
                         <WiWindDeg

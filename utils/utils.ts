@@ -1,5 +1,11 @@
 import { WeatherCode } from "@/services/openmeteo";
 
+export function secondsToHours(seconds: number) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return { hours: hours, minutes: minutes };
+}
+
 function wmoIcons(icon: string): WeatherIcons {
     return {
         iconSmallPath: `/weatherIcons/${icon}@4x.png`,

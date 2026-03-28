@@ -37,5 +37,13 @@
         "4": "Giovedì",
         "5": "Venerdì",
         "6": "Sabato"
+    },
+    "DayInfo": {
+        "duration": "{hours}h {minutes}m",
+        "daylight": "Luce",
+        "max": "Massima",
+        "min": "Minima",
+        "uv": "Indice UV",
+        "wind": "Vento"
     }
 }

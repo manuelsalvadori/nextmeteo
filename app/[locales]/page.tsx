@@ -6,6 +6,7 @@ import SearchLocation from "@/components/searchLocation/searchLocation";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
 import { Suspense } from "react";
 import Hourly from "@/components/hourly/hourly";
+import Weekly from "@/components/weekly/weekly";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -35,13 +36,13 @@ export default async function Home({ searchParams }: HomeProps) {
                 <Daily location={name} dailyData={currentMeteo} />
             </Suspense>
             <Suspense>
-                <div className={style.week}></div>
+                <Hourly data={hourlyMeteo} />
             </Suspense>
             <Suspense>
                 <div className={style.data}></div>
             </Suspense>
             <Suspense>
-                <Hourly data={hourlyMeteo} />
+                <Weekly weeklyData={weeklyMeteo} />
             </Suspense>
         </main>
     );
