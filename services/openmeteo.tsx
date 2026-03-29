@@ -132,68 +132,61 @@ export async function getWeeklyMeteo(coords: Coordinates) {
     }));
 
     const weatherData = WeeklyMeteoSchema.parse(weeklyData);
-    console.log("WEEKLY", weatherData);
     return weatherData;
 }
 
-export async function getHourlyMeteo(coords: Coordinates) {
-    //console.log(request);
-
+export async function getHourlyMeteo(coords: Coordinates, day: number) {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
         hourly: ["temperature_2m", "weather_code"],
         timezone: "UTC",
-        forecast_days: 1,
+        forecast_days: 7,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
     const responses = await fetchWeatherApi(url, params);
-
     const response = responses[0];
-
-    // Attributes for timezone and location
-    const latitude = response.latitude();
-    const longitude = response.longitude();
-    const elevation = response.elevation();
-    const timezone = response.timezone();
-    const timezoneAbbreviation = response.timezoneAbbreviation();
-    const utcOffsetSeconds = response.utcOffsetSeconds();
-
-    console.log(
-        `\nCoordinates: ${latitude}°N ${longitude}°E`,
-        `\nElevation: ${elevation}m asl`,
-        `\nTimezone: ${timezone} ${timezoneAbbreviation}`,
-        `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
-    );
-
     const hourly = response.hourly()!;
 
-    // Note: The order of weather variables in the URL query and the indices below need to match!
-    const rawWeatherData = {
-        time: Array.from(
-            {
-                length: (Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval(),
-            },
-            (_, i) =>
-                new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000),
-        ),
-        temperatures: hourly.variables(0)!.valuesArray(),
-        weatherCodes: hourly.variables(1)!.valuesArray(),
-    };
+    const startTime = Number(hourly.time());
+    const interval = hourly.interval();
 
-    const hourlyArray = rawWeatherData.time.map((t, i) => {
-        return {
-            time: t,
-            temperature: rawWeatherData.temperatures![i],
-            weatherCode: rawWeatherData.weatherCodes![i],
-        };
-    });
+    const target = new Date();
+    target.setDate(target.getDate() + day);
+    const targetDateString = target.toLocaleDateString("sv-SE");
+
+    const hourlyArray = [];
+    const numElements = (Number(hourly.timeEnd()) - startTime) / interval;
+
+    const temps = hourly.variables(0)!.valuesArray()!;
+    const codes = hourly.variables(1)!.valuesArray()!;
+
+    for (let i = 0; i < numElements; i++) {
+        const timestampMs = (startTime + i * interval) * 1000;
+        const date = new Date(timestampMs);
+
+        const dateString = date.toLocaleDateString("sv-SE");
+
+        if (dateString === targetDateString) {
+            hourlyArray.push({
+                time: date,
+                temperature: temps[i],
+                weatherCode: codes[i],
+            });
+        }
+    }
+
+    if (hourlyArray.length === 0) {
+        const sampleDate = new Date(startTime * 1000);
+        console.error("Target cercato:", targetDateString);
+        console.error("Data di inizio array (locale):", sampleDate.toLocaleDateString("sv-SE"));
+    }
 
     const weatherData = HourlyMeteoArraySchema.parse(hourlyArray);
     return weatherData;
 }
 
-export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
+export async function getCurrentMeteo(coords: Coordinates, day: number): Promise<DailyData> {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
@@ -207,7 +200,7 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
             "daylight_duration",
         ],
         timezone: "auto",
-        forecast_days: 1,
+        forecast_days: 7,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
     const responses = await fetchWeatherApi(url, params);
@@ -226,12 +219,12 @@ export async function getCurrentMeteo(coords: Coordinates): Promise<DailyData> {
     });
 
     const dailyData = CurrentDailyMeteoSchema.parse({
-        temperatureMax: daily.variables(0)!.valuesArray()![0],
-        temperatureMin: daily.variables(1)!.valuesArray()![0],
-        windSpeedMax: daily.variables(2)!.valuesArray()![0],
-        windDirection: daily.variables(3)!.valuesArray()![0],
-        uvIndexMax: daily.variables(4)!.valuesArray()![0],
-        daylightDuration: daily.variables(5)!.valuesArray()![0],
+        temperatureMax: daily.variables(0)!.valuesArray()![day],
+        temperatureMin: daily.variables(1)!.valuesArray()![day],
+        windSpeedMax: daily.variables(2)!.valuesArray()![day],
+        windDirection: daily.variables(3)!.valuesArray()![day],
+        uvIndexMax: daily.variables(4)!.valuesArray()![day],
+        daylightDuration: daily.variables(5)!.valuesArray()![day],
     });
 
     return { currentMeteoData: weatherData, dailyMeteoData: dailyData };

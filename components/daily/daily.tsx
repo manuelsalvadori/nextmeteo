@@ -10,20 +10,23 @@ import { GoSun } from "react-icons/go";
 export type DailyProps = {
     location: string;
     dailyData: DailyData;
+    day: number;
 };
 
-const today = new Date();
-
-export default async function Daily({ location, dailyData }: DailyProps) {
+export default async function Daily({ location, dailyData, day }: DailyProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
     const tm = await getTranslations("DayInfo");
 
+    const displayDay = new Date();
+    displayDay.setDate(displayDay.getDate() + day);
+
     const { currentMeteoData, dailyMeteoData } = dailyData;
+    const { hours, minutes } = secondsToHours(dailyMeteoData.daylightDuration);
+
     const wCode = currentMeteoData.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
-    const { hours, minutes } = secondsToHours(dailyMeteoData.daylightDuration);
     const daylightDuration = tm("duration", { hours: hours, minutes: minutes });
 
     return (
@@ -58,8 +61,8 @@ export default async function Daily({ location, dailyData }: DailyProps) {
                 />
             </div>
             <div className={styles.infoSection}>
-                <p>{td(today.getDay().toString() as never)}</p>
-                <p>{today.toLocaleDateString()}</p>
+                <p>{td(displayDay.getDay().toString() as never)}</p>
+                <p>{displayDay.toLocaleDateString()}</p>
                 <p>
                     <span>
                         <WiThermometer />

@@ -13,15 +13,16 @@ type HomeProps = {
 };
 
 export default async function Home({ searchParams }: HomeProps) {
-    const { location, lat, lng } = await searchParams;
+    const { location, lat, lng, day } = await searchParams;
     const coords: Coordinates = {
         latitude: Number(lat || 45.4643),
         longitude: Number(lng || 9.1895),
     };
     const name = Array.isArray(location) ? location[0] : location || "Milano";
+    const displayDay = Number(day || 0);
 
-    const currentMeteo = await getCurrentMeteo(coords);
-    const hourlyMeteo = await getHourlyMeteo(coords);
+    const currentMeteo = await getCurrentMeteo(coords, displayDay);
+    const hourlyMeteo = await getHourlyMeteo(coords, displayDay);
     const weeklyMeteo = await getWeeklyMeteo(coords);
 
     return (
@@ -33,7 +34,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <SearchLocation />
             </Suspense>
             <Suspense>
-                <Daily location={name} dailyData={currentMeteo} />
+                <Daily location={name} dailyData={currentMeteo} day={displayDay} />
             </Suspense>
             <Suspense>
                 <Hourly data={hourlyMeteo} />
@@ -42,7 +43,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <div className={style.data}></div>
             </Suspense>
             <Suspense>
-                <Weekly weeklyData={weeklyMeteo} />
+                <Weekly weeklyData={weeklyMeteo} coords={coords} location={name} />
             </Suspense>
         </main>
     );

@@ -1,21 +1,26 @@
 import { DailyMeteoData, WeeklyMeteoData } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
-import { wmoCodes } from "@/utils/utils";
-import styles from "./weekly.module.css";
-import Image from "next/image";
+import { Coordinates, wmoCodes } from "@/utils/utils";
 import { WiThermometer } from "react-icons/wi";
+import { Link } from "@/i18n/navigation";
+import Image from "next/image";
+import styles from "./weekly.module.css";
 
 export type WeeklyProps = {
     weeklyData: WeeklyMeteoData;
+    coords: Coordinates;
+    location: string;
 };
 
-export default async function Weekly({ weeklyData }: WeeklyProps) {
-    //const t = await getTranslations("DayInfo");
-
+export default async function Weekly({ weeklyData, coords, location }: WeeklyProps) {
     return (
         <div className={styles.week}>
             {weeklyData.map((d, i) => (
-                <WeeklyCard key={i} data={d} />
+                <WeeklyCard
+                    key={i}
+                    data={d}
+                    href={`?location=${location}&lat=${coords.latitude}&lng=${coords.longitude}&day=${i}`}
+                />
             ))}
         </div>
     );
@@ -23,9 +28,10 @@ export default async function Weekly({ weeklyData }: WeeklyProps) {
 
 type HourlyCardProps = {
     data: DailyMeteoData;
+    href: string;
 };
 
-async function WeeklyCard({ data }: HourlyCardProps) {
+async function WeeklyCard({ data, href }: HourlyCardProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
 
@@ -33,7 +39,7 @@ async function WeeklyCard({ data }: HourlyCardProps) {
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
     return (
-        <div className={styles.weekCard}>
+        <Link href={href} className={styles.weekCard}>
             <p className={styles.weekDay}>
                 {td(data.time.getDay().toString() as never)} {data.time.getDate()}
             </p>
@@ -52,6 +58,6 @@ async function WeeklyCard({ data }: HourlyCardProps) {
                     {data.temperatureMin.toFixed(0)}° {data.temperatureMax.toFixed(0)}°C
                 </p>
             </div>
-        </div>
+        </Link>
     );
 }

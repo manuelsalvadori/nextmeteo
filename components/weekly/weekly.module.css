@@ -9,11 +9,13 @@
 }
 
 .weekCard {
+    all: unset;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 0.5rem;
+    cursor: pointer;
 
     &:hover {
         background-color: rgb(from var(--background) r g b / 0.8);
@@ -39,12 +41,18 @@
 
 .info > p {
     margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .info > p:first-of-type {
-    font-size: 0.875rem;
+    display: -webkit-box;
     color: var(--text2);
     text-wrap-style: balance;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .info > p:last-of-type {
