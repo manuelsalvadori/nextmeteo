@@ -1,12 +1,14 @@
-import Daily from "@/components/daily/daily";
-import style from "./page.module.css";
 import { getCurrentMeteo, getHourlyMeteo, getWeeklyMeteo } from "@/services/openmeteo";
 import { Coordinates } from "@/utils/utils";
-import SearchLocation from "@/components/searchLocation/searchLocation";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
 import { Suspense } from "react";
+import SearchLocation from "@/components/searchLocation/searchLocation";
 import Hourly from "@/components/hourly/hourly";
 import Weekly from "@/components/weekly/weekly";
+import Daily from "@/components/daily/daily";
+import Skeleton from "@/components/skeleton/skeleton";
+import style from "./page.module.css";
+import ExtraData from "@/components/extraData/extraData";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -33,16 +35,16 @@ export default async function Home({ searchParams }: HomeProps) {
             <Suspense>
                 <SearchLocation />
             </Suspense>
-            <Suspense>
+            <Suspense fallback={<Skeleton className={style.daySkeleton} />}>
                 <Daily location={name} dailyData={currentMeteo} day={displayDay} />
             </Suspense>
-            <Suspense>
+            <Suspense fallback={<Skeleton className={style.hoursSkeleton} />}>
                 <Hourly data={hourlyMeteo} />
             </Suspense>
-            <Suspense>
-                <div className={style.data}></div>
+            <Suspense fallback={<Skeleton className={style.dataSkeleton} />}>
+                <ExtraData data={hourlyMeteo} />
             </Suspense>
-            <Suspense>
+            <Suspense fallback={<Skeleton className={style.weekSkeleton} />}>
                 <Weekly weeklyData={weeklyMeteo} coords={coords} location={name} />
             </Suspense>
         </main>

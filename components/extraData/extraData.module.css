@@ -1,0 +1,56 @@
+.body {
+    display: flex;
+    grid-area: data;
+    border-radius: 12px;
+    background-color: var(--foreground);
+    padding: 2rem;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.chart {
+    flex: 1;
+}
+
+.controls {
+    display: flex;
+    gap: 0.25rem;
+    justify-content: flex-end;
+}
+
+.button {
+    font-size: 0.75rem;
+    border: 1px solid var(--text2);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.125rem;
+    padding-inline: 0.25rem;
+    border-radius: 4px;
+
+    &:hover {
+        border: 1px solid var(--text);
+        color: var(--text);
+    }
+
+    &:focus,
+    &:focus-visible {
+        border: 1px solid var(--text);
+        outline: none;
+    }
+}
+
+.active {
+    background-color: var(--text);
+    border: 1px solid var(--text);
+    color: var(--background);
+
+    &:hover {
+        background-color: var(--text);
+        color: var(--background);
+    }
+
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+}

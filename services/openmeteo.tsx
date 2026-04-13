@@ -139,7 +139,7 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
-        hourly: ["temperature_2m", "weather_code"],
+        hourly: ["temperature_2m", "weather_code", "precipitation", "relative_humidity_2m"],
         timezone: "auto",
         forecast_days: 7,
     };
@@ -168,6 +168,8 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
     const numElements = (Number(hourly.timeEnd()) - startTime) / interval;
     const temps = hourly.variables(0)!.valuesArray()!;
     const codes = hourly.variables(1)!.valuesArray()!;
+    const precipit = hourly.variables(2)!.valuesArray()!;
+    const humidity = hourly.variables(3)!.valuesArray()!;
 
     const hourlyArray = [];
 
@@ -182,6 +184,8 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
                 time: date,
                 temperature: temps[i],
                 weatherCode: codes[i],
+                precipitation: precipit[i],
+                humidity: humidity[i],
             });
         }
     }
@@ -313,6 +317,8 @@ const HourlyMeteoSchema = z.object({
     time: z.date(),
     weatherCode: WeatherCodeSchema,
     temperature: z.number(),
+    precipitation: z.number(),
+    humidity: z.number(),
 });
 
 const HourlyMeteoArraySchema = z.array(HourlyMeteoSchema);

@@ -7,10 +7,10 @@
 .mainSection {
     padding: 2rem;
     display: flex;
+    flex: 1;
     background-color: var(--foreground);
     border-radius: 12px;
     justify-content: space-between;
-    flex: 1;
 }
 
 .mainSection > div > p {

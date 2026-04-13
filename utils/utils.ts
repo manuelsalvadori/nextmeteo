@@ -65,3 +65,7 @@ export type WeatherIcons = {
     iconLargePath: string;
     iconSmallPath: string;
 };
+
+export function waitForSeconds(seconds: number) {
+    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}

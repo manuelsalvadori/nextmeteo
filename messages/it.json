@@ -45,5 +45,11 @@
         "min": "Minima",
         "uv": "Indice UV",
         "wind": "Vento"
+    },
+    "MeteoData": {
+        "humidity": "Umidità",
+        "precipitation": "Precipitazioni",
+        "temps": "Temperature",
+        "cloudcover": "Copertura nuvolosa"
     }
 }

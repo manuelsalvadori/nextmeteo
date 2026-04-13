@@ -49,3 +49,23 @@
     background-color: var(--foreground);
     border-radius: 12px;
 }
+
+.daySkeleton {
+    grid-area: day;
+    border-radius: 12px;
+}
+
+.weekSkeleton {
+    grid-area: week;
+    border-radius: 12px;
+}
+
+.dataSkeleton {
+    grid-area: data;
+    border-radius: 12px;
+}
+
+.hoursSkeleton {
+    grid-area: hours;
+    border-radius: 12px;
+}

@@ -1,0 +1,35 @@
+.skeleton {
+    position: relative;
+    background-color: var(--foreground);
+    overflow: hidden;
+    border-radius: 12px;
+
+    &::after {
+        position: absolute;
+        inset: 0;
+        width: 200%;
+        content: "";
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgb(from var(--text2) r g b / 0.5),
+            transparent
+        );
+        animation: slide 1s linear infinite;
+    }
+}
+
+@keyframes slide {
+    0% {
+        translate: -100% 0;
+        filter: brightness(0.5);
+    }
+    50% {
+        translate: 0 0;
+        filter: brightness(1);
+    }
+    100% {
+        translate: 100% 0;
+        filter: brightness(0.5);
+    }
+}
