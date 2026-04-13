@@ -1,7 +1,6 @@
 import { DailyMeteoData, WeeklyMeteoData } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
 import { Coordinates, wmoCodes } from "@/utils/utils";
-import { WiThermometer } from "react-icons/wi";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import styles from "./weekly.module.css";
@@ -53,10 +52,10 @@ async function WeeklyCard({ data, href }: HourlyCardProps) {
                     preload
                 />
                 <p>{description}</p>
-                <p>
-                    <WiThermometer />
-                    {data.temperatureMin.toFixed(0)}° {data.temperatureMax.toFixed(0)}°C
-                </p>
+                <div>
+                    <p>{data.temperatureMin.toFixed(0)}°C</p>
+                    <p>{data.temperatureMax.toFixed(0)}°C</p>
+                </div>
             </div>
         </Link>
     );

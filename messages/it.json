@@ -40,7 +40,7 @@
     },
     "DayInfo": {
         "duration": "{hours}h {minutes}m",
-        "daylight": "Luce",
+        "daylight": "Ore luce",
         "max": "Massima",
         "min": "Minima",
         "uv": "Indice UV",

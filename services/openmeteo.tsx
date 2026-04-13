@@ -88,7 +88,7 @@ export async function getWeeklyMeteo(coords: Coordinates) {
         latitude: coords.latitude,
         longitude: coords.longitude,
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
-        timezone: "UTC",
+        timezone: "auto",
         forecast_days: 7,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
@@ -140,34 +140,44 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
         latitude: coords.latitude,
         longitude: coords.longitude,
         hourly: ["temperature_2m", "weather_code"],
-        timezone: "UTC",
+        timezone: "auto",
         forecast_days: 7,
     };
+
     const url = "https://api.open-meteo.com/v1/forecast";
     const responses = await fetchWeatherApi(url, params);
     const response = responses[0];
+
+    const timezone = response.timezone()!;
     const hourly = response.hourly()!;
+
+    const dateFormatter = new Intl.DateTimeFormat("sv-SE", {
+        timeZone: timezone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    });
+
+    const now = new Date();
+    const targetDate = new Date(now);
+    targetDate.setDate(now.getDate() + day);
+    const targetDateString = dateFormatter.format(targetDate);
 
     const startTime = Number(hourly.time());
     const interval = hourly.interval();
-
-    const target = new Date();
-    target.setDate(target.getDate() + day);
-    const targetDateString = target.toLocaleDateString("sv-SE");
-
-    const hourlyArray = [];
     const numElements = (Number(hourly.timeEnd()) - startTime) / interval;
-
     const temps = hourly.variables(0)!.valuesArray()!;
     const codes = hourly.variables(1)!.valuesArray()!;
+
+    const hourlyArray = [];
 
     for (let i = 0; i < numElements; i++) {
         const timestampMs = (startTime + i * interval) * 1000;
         const date = new Date(timestampMs);
 
-        const dateString = date.toLocaleDateString("sv-SE");
+        const currentDateString = dateFormatter.format(date);
 
-        if (dateString === targetDateString) {
+        if (currentDateString === targetDateString) {
             hourlyArray.push({
                 time: date,
                 temperature: temps[i],
@@ -176,14 +186,7 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
         }
     }
 
-    if (hourlyArray.length === 0) {
-        const sampleDate = new Date(startTime * 1000);
-        console.error("Target cercato:", targetDateString);
-        console.error("Data di inizio array (locale):", sampleDate.toLocaleDateString("sv-SE"));
-    }
-
-    const weatherData = HourlyMeteoArraySchema.parse(hourlyArray);
-    return weatherData;
+    return HourlyMeteoArraySchema.parse(hourlyArray);
 }
 
 export async function getCurrentMeteo(coords: Coordinates, day: number): Promise<DailyData> {

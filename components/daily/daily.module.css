@@ -24,10 +24,17 @@
     padding: 2rem;
     background-color: var(--foreground);
     border-radius: 12px;
-    width: 14rem;
+    width: 15.5rem;
     min-width: 0;
     color: var(--text2);
     gap: 0.25rem;
+}
+
+.infoSection > p > span:first-child {
+    display: grid;
+    grid-template-columns: 1rem 1fr;
+    column-gap: 0.25rem;
+    align-items: center;
 }
 
 .infoSection > p {

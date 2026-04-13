@@ -33,7 +33,7 @@
 
 .info {
     display: grid;
-    grid-template-columns: 3rem 1fr 5rem;
+    grid-template-columns: 3rem 1fr 3rem;
     align-items: center;
     margin-left: 3rem;
     gap: 0.5rem;
@@ -43,6 +43,7 @@
     margin: 0;
     display: flex;
     align-items: center;
+    text-align: center;
 }
 
 .info > p:first-of-type {
@@ -55,7 +56,8 @@
     overflow: hidden;
 }
 
-.info > p:last-of-type {
+.info > div:last-of-type > p {
     font-weight: 600;
-    margin-left: auto;
+    text-align: right;
+    margin-block: 0;
 }
