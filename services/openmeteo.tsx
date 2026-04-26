@@ -271,6 +271,26 @@ export async function searchLocation(
     });
 }
 
+export async function getLocationById(id: number, language: string) {
+    const url = `https://geocoding-api.open-meteo.com/v1/get?id=${id}&language=${language}&format=json`;
+
+    const responses = await fetch(url);
+    const res = await responses.json();
+    const results = GeoSearchResSchema.parse(res).results;
+    if (!results) return [];
+
+    return results.map((r): LocationData => {
+        return {
+            id: r.id,
+            coords: { latitude: r.latitude, longitude: r.longitude },
+            name: r.name,
+            admin: r.admin1 || r.admin2 || r.admin3 || r.admin4 || "N/A",
+            country: r.country || "N/A",
+            countryCode: r.country_code.toLowerCase(),
+        };
+    });
+}
+
 export async function searchLocationName(coords: Coordinates) {
     const url = `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${coords.latitude}&lng=${coords.longitude}&username=nextmeteo&lang=local&cities=cities15000`;
     const responses = await fetch(url);

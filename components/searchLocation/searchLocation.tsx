@@ -7,6 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { CircleFlag } from "react-circle-flags";
 import styles from "./searchLocation.module.css";
 import clsx from "clsx";
+import { useLocale } from "next-intl";
 
 export default function SearchLocation() {
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -15,11 +16,12 @@ export default function SearchLocation() {
     const [debouncedTerm] = useDebounce(searchTerm, 500);
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
+    const locale = useLocale();
 
     const { data, isLoading } = useQuery({
         queryKey: ["search", debouncedTerm],
         queryFn: async () => {
-            const res = await fetch(`/api/searchLocation?query=${debouncedTerm}&lng=it`);
+            const res = await fetch(`/api/searchLocation?query=${debouncedTerm}&lng=${locale}`);
             return res.json();
         },
         placeholderData: (previousData) => (debouncedTerm.length > 2 ? previousData : undefined),
@@ -31,7 +33,7 @@ export default function SearchLocation() {
         setSearchTerm("");
         inputRef.current?.blur();
         router.push(
-            `/?location=${data.name}&lat=${data.coords.latitude}&lng=${data.coords.longitude}`,
+            `/?id=${data.id}&location=${data.name}&lat=${data.coords.latitude}&lng=${data.coords.longitude}`,
         );
     };
 

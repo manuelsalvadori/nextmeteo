@@ -1,0 +1,14 @@
+.favButton {
+    color: var(--text2);
+    font-size: 2rem;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--text);
+    }
+
+    &:focus-visible,
+    &:focus {
+        outline: none;
+    }
+}

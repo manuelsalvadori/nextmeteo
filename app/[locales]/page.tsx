@@ -15,12 +15,13 @@ type HomeProps = {
 };
 
 export default async function Home({ searchParams }: HomeProps) {
-    const { location, lat, lng, day } = await searchParams;
+    const { id, location, lat, lng, day } = await searchParams;
     const coords: Coordinates = {
         latitude: Number(lat || 45.4643),
         longitude: Number(lng || 9.1895),
     };
     const name = Array.isArray(location) ? location[0] : location || "Milano";
+    const locationId = Number(id || 3173435);
     const displayDay = Number(day || 0);
 
     const currentMeteo = await getCurrentMeteo(coords, displayDay);
@@ -36,7 +37,12 @@ export default async function Home({ searchParams }: HomeProps) {
                 <SearchLocation />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.daySkeleton} />}>
-                <Daily location={name} dailyData={currentMeteo} day={displayDay} />
+                <Daily
+                    locationId={locationId}
+                    location={name}
+                    dailyData={currentMeteo}
+                    day={displayDay}
+                />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.hoursSkeleton} />}>
                 <Hourly data={hourlyMeteo} />

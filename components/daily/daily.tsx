@@ -6,14 +6,16 @@ import { WiCloud } from "react-icons/wi";
 import { DailyData } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
 import { GoSun } from "react-icons/go";
+import FavButton from "../favButton/favButton";
 
 export type DailyProps = {
+    locationId: number;
     location: string;
     dailyData: DailyData;
     day: number;
 };
 
-export default async function Daily({ location, dailyData, day }: DailyProps) {
+export default async function Daily({ locationId, location, dailyData, day }: DailyProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
     const tm = await getTranslations("DayInfo");
@@ -32,33 +34,37 @@ export default async function Daily({ location, dailyData, day }: DailyProps) {
     return (
         <div className={styles.day}>
             <div className={styles.mainSection}>
-                <div>
-                    <div className={styles.location}>
-                        <p key={location}>{location}</p>
-                    </div>
-
-                    <p className={styles.rain}>
-                        <WiCloud />
-                        Copertura nuvolosa: {Math.round(currentMeteoData.cloudCover)}%
+                <div className={styles.location}>
+                    <p key={location} title={location}>
+                        {location}
                     </p>
-                    <p className={styles.rain}>
-                        <WiRaindrop />
-                        Umidità: {Math.round(currentMeteoData.relativeHumidity)}%
-                    </p>
-                    <div className={styles.temperature}>
-                        <p key={currentMeteoData.temperature}>
-                            {Math.round(currentMeteoData.temperature)}°C
-                        </p>
-                    </div>
+                    <FavButton key={locationId} locationId={locationId} />
                 </div>
-                <Image
-                    src={wData.iconLargePath}
-                    alt={description}
-                    title={description}
-                    loading='eager'
-                    width={200}
-                    height={200}
-                />
+                <div className={styles.mainSectionData}>
+                    <div>
+                        <p className={styles.rain}>
+                            <WiCloud />
+                            Copertura nuvolosa: {Math.round(currentMeteoData.cloudCover)}%
+                        </p>
+                        <p className={styles.rain}>
+                            <WiRaindrop />
+                            Umidità: {Math.round(currentMeteoData.relativeHumidity)}%
+                        </p>
+                        <div className={styles.temperature}>
+                            <p key={currentMeteoData.temperature}>
+                                {Math.round(currentMeteoData.temperature)}°C
+                            </p>
+                        </div>
+                    </div>
+                    <Image
+                        src={wData.iconLargePath}
+                        alt={description}
+                        title={description}
+                        loading='eager'
+                        width={200}
+                        height={200}
+                    />
+                </div>
             </div>
             <div className={styles.infoSection}>
                 <p>{td(displayDay.getDay().toString() as never)}</p>

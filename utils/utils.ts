@@ -69,3 +69,8 @@ export type WeatherIcons = {
 export function waitForSeconds(seconds: number) {
     return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
+
+export type Location = {
+    name: string;
+    coords: Coordinates;
+};
