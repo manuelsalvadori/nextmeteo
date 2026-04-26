@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import clsx from "clsx";
+import { WiRain, WiRaindrop, WiThermometer } from "react-icons/wi";
 
 export type ExtraDataProps = {
     data: HourlyMeteoData[];
@@ -107,19 +108,33 @@ export default function ExtraData({ data }: ExtraDataProps) {
     return (
         <div className={styles.body}>
             <div className={styles.controls}>
-                {(Object.keys(METRIC_CONFIG) as Metric[]).map((m) => (
-                    <button
-                        key={m}
-                        onClick={() => setSelectedMetric(m)}
-                        className={clsx(styles.button, selectedMetric === m && styles.active)}
-                    >
-                        {METRIC_CONFIG[m].label}
-                    </button>
-                ))}
+                {getMetricIcon(selectedMetric)}
+                <div>
+                    {(Object.keys(METRIC_CONFIG) as Metric[]).map((m) => (
+                        <button
+                            key={m}
+                            onClick={() => setSelectedMetric(m)}
+                            className={clsx(styles.button, selectedMetric === m && styles.active)}
+                        >
+                            {METRIC_CONFIG[m].label}
+                        </button>
+                    ))}
+                </div>
             </div>
             <div className={styles.chart}>
                 <Line options={options} data={chartData} />
             </div>
         </div>
     );
+}
+
+function getMetricIcon(selectedMetric: Metric) {
+    switch (selectedMetric) {
+        case "humidity":
+            return <WiRaindrop />;
+        case "precipitation":
+            return <WiRain />;
+        case "temperature":
+            return <WiThermometer />;
+    }
 }

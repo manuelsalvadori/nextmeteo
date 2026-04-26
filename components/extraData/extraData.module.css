@@ -14,8 +14,13 @@
 
 .controls {
     display: flex;
-    gap: 0.25rem;
-    justify-content: flex-end;
+    justify-content: space-between;
+    font-size: 1.25rem;
+
+    & > div {
+        display: flex;
+        gap: 0.25rem;
+    }
 }
 
 .button {

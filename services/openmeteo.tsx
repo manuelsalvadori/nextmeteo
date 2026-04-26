@@ -205,6 +205,9 @@ export async function getCurrentMeteo(coords: Coordinates, day: number): Promise
             "wind_direction_10m_dominant",
             "uv_index_max",
             "daylight_duration",
+            "relative_humidity_2m_mean",
+            "cloud_cover_mean",
+            "weather_code",
         ],
         timezone: "auto",
         forecast_days: 7,
@@ -218,12 +221,20 @@ export async function getCurrentMeteo(coords: Coordinates, day: number): Promise
     const daily = response.daily()!;
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
-    const weatherData = CurrentMeteoSchema.parse({
-        temperature: current.variables(0)!.value(),
-        relativeHumidity: current.variables(1)!.value(),
-        weatherCode: current.variables(2)!.value(),
-        cloudCover: current.variables(3)!.value(),
-    });
+    const weatherData =
+        day === 0
+            ? CurrentMeteoSchema.parse({
+                  temperature: current.variables(0)!.value(),
+                  relativeHumidity: current.variables(1)!.value(),
+                  weatherCode: current.variables(2)!.value(),
+                  cloudCover: current.variables(3)!.value(),
+              })
+            : CurrentMeteoSchema.parse({
+                  temperature: daily.variables(0)!.valuesArray()![day],
+                  relativeHumidity: daily.variables(6)!.valuesArray()![day],
+                  weatherCode: daily.variables(8)!.valuesArray()![day],
+                  cloudCover: daily.variables(7)!.valuesArray()![day],
+              });
 
     const dailyData = CurrentDailyMeteoSchema.parse({
         temperatureMax: daily.variables(0)!.valuesArray()![day],
