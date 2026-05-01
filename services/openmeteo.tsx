@@ -276,19 +276,18 @@ export async function getLocationById(id: number, language: string) {
 
     const responses = await fetch(url);
     const res = await responses.json();
-    const results = GeoSearchResSchema.parse(res).results;
-    if (!results) return [];
+    const result = LocationSchema.parse(res);
+    if (!result) return undefined;
 
-    return results.map((r): LocationData => {
-        return {
-            id: r.id,
-            coords: { latitude: r.latitude, longitude: r.longitude },
-            name: r.name,
-            admin: r.admin1 || r.admin2 || r.admin3 || r.admin4 || "N/A",
-            country: r.country || "N/A",
-            countryCode: r.country_code.toLowerCase(),
-        };
-    });
+    const location: LocationData = {
+        id: result.id,
+        coords: { latitude: result.latitude, longitude: result.longitude },
+        name: result.name,
+        admin: result.admin1 || result.admin2 || result.admin3 || result.admin4 || "N/A",
+        country: result.country || "N/A",
+        countryCode: result.country_code.toLowerCase(),
+    };
+    return location;
 }
 
 export async function searchLocationName(coords: Coordinates) {

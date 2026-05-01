@@ -1,0 +1,36 @@
+.body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: var(--foreground);
+    border-radius: 12px;
+}
+
+.list {
+    padding: 0;
+}
+
+.result {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    align-items: center;
+    color: var(--text2);
+}
+
+.link {
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+
+    color: var(--text2);
+}
+
+.link:hover {
+    color: var(--text);
+}
+
+.body p,
+.body h1 {
+    margin: 0;
+}
