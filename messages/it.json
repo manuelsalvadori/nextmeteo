@@ -51,5 +51,13 @@
         "precipitation": "Precipitazioni",
         "temps": "Temperature",
         "cloudcover": "Copertura nuvolosa"
+    },
+    "FavButton": {
+        "altAdd": "Aggiungi ai preferiti",
+        "altRemove": "Rimuovi dai preferiti"
+    },
+    "Favorites": {
+        "title": "Località preferite",
+        "noFavs": "Nessun preferito salvato"
     }
 }

@@ -1,3 +1,8 @@
+.body p,
+.body h1 {
+    margin: 0;
+}
+
 .body {
     padding: 2rem;
     display: flex;
@@ -5,32 +10,129 @@
     flex: 1;
     background-color: var(--foreground);
     border-radius: 12px;
+    gap: 1.5rem;
+    padding-right: 1rem;
 }
 
 .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     padding: 0;
+    gap: 1rem;
+    margin: 0;
+    overflow: auto;
+    padding-right: 0.5rem;
+
+    @supports not selector(::-webkit-scrollbar) {
+        scrollbar-color: var(--text2) var(--foreground);
+        scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--text2);
+        border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
 }
 
 .result {
-    display: grid;
-    grid-template-columns: 1fr min-content;
-    align-items: center;
+    display: flex;
     color: var(--text2);
+    background-color: var(--foreground2);
+    border-radius: 12px;
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+        background-color: var(--background);
+    }
+
+    &:hover img {
+        scale: 1.1;
+    }
+
+    & img {
+        transition: scale 0.9s
+            linear(
+                0,
+                0.048 0.8%,
+                0.177 1.6%,
+                1.168 5.7%,
+                1.316 6.8%,
+                1.378 8%,
+                1.367 8.8%,
+                1.317 9.7%,
+                0.928 14%,
+                0.876 15.1%,
+                0.857 16.2%,
+                0.861 17%,
+                0.881 17.9%,
+                1.026 22.1%,
+                1.046 23.2%,
+                1.054 24.3%,
+                1.045 26.1%,
+                0.99 30.3%,
+                0.979 32.5%,
+                1.008 40.6%,
+                0.997 48.8%,
+                1
+            );
+    }
 }
 
-.link {
+.card {
     display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 2rem;
     gap: 1ch;
     align-items: center;
+    justify-content: center;
 
     color: var(--text2);
 }
 
-.link:hover {
+.card:hover {
     color: var(--text);
 }
 
-.body p,
-.body h1 {
-    margin: 0;
+.cardHeader {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: min-content 1fr min-content;
+    align-items: flex-start;
+    margin-bottom: auto;
+}
+
+.location {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.temperature {
+    font-size: 2rem;
+    font-weight: 600;
+    overflow: hidden;
+    max-height: 2rem;
+}
+
+.noFavs {
+    display: flex;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-block: auto !important;
+    margin-inline: auto !important;
+    padding-bottom: 5rem;
+    text-align: center;
 }

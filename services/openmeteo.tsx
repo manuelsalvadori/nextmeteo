@@ -248,6 +248,33 @@ export async function getCurrentMeteo(coords: Coordinates, day: number): Promise
     return { currentMeteoData: weatherData, dailyMeteoData: dailyData };
 }
 
+export async function getCurrentMeteoArray(coords: Coordinates[]) {
+    const lats = coords.map((c) => c.latitude);
+    const lons = coords.map((c) => c.longitude);
+
+    const params = {
+        latitude: lats,
+        longitude: lons,
+        current: ["temperature_2m", "relative_humidity_2m", "weather_code", "cloud_cover"],
+        timezone: "auto",
+        forecast_days: 1,
+    };
+
+    const url = "https://api.open-meteo.com/v1/forecast";
+    const responses = await fetchWeatherApi(url, params);
+
+    return responses.map((response) => {
+        const current = response.current()!;
+
+        return CurrentMeteoSchema.parse({
+            temperature: current.variables(0)!.value(),
+            relativeHumidity: current.variables(1)!.value(),
+            weatherCode: current.variables(2)!.value(),
+            cloudCover: current.variables(3)!.value(),
+        });
+    });
+}
+
 export async function searchLocation(
     searchTerm: string,
     language: string,

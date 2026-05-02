@@ -1,7 +1,14 @@
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import Cookies from "js-cookie";
 
-const cookieStorage = createJSONStorage<number[]>(() => ({
+export type LastLocationData = {
+    id: number;
+    location: string;
+    lat: number;
+    lng: number;
+};
+
+const cookieStorage = createJSONStorage<LastLocationData | undefined>(() => ({
     getItem: (key) => {
         const value = Cookies.get(key);
         return value ? value : null;
@@ -14,4 +21,8 @@ const cookieStorage = createJSONStorage<number[]>(() => ({
     },
 }));
 
-export const favsAtom = atomWithStorage<number[]>("favs", [], cookieStorage);
+export const favsAtom = atomWithStorage<LastLocationData | undefined>(
+    "lastLocation",
+    undefined,
+    cookieStorage,
+);

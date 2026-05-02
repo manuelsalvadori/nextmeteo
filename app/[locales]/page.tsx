@@ -2,13 +2,18 @@ import { getCurrentMeteo, getHourlyMeteo, getWeeklyMeteo } from "@/services/open
 import { Coordinates } from "@/utils/utils";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { LastLocationData } from "@/atoms/lastLocationAtom";
+import { LastLocationTracker } from "@/components/lastLocationTracker/lastLocationTracker";
 import SearchLocation from "@/components/searchLocation/searchLocation";
 import Hourly from "@/components/hourly/hourly";
 import Weekly from "@/components/weekly/weekly";
 import Daily from "@/components/daily/daily";
 import Skeleton from "@/components/skeleton/skeleton";
-import style from "./page.module.css";
 import ExtraData from "@/components/extraData/extraData";
+import style from "./page.module.css";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -16,6 +21,21 @@ type HomeProps = {
 
 export default async function Home({ searchParams }: HomeProps) {
     const { id, location, lat, lng, day } = await searchParams;
+
+    const cookieStore = await cookies();
+    const rawValue = cookieStore.get("lastLocation")?.value;
+    const lastLocation: LastLocationData = rawValue
+        ? JSON.parse(decodeURIComponent(rawValue))
+        : undefined;
+
+    if (!lat && lastLocation)
+        redirect({
+            href: `/?id=${lastLocation.id}&location=${lastLocation.location}&lat=${lastLocation.lat}&lon=${lastLocation.lng}`,
+            locale: await getLocale(),
+        });
+
+    console.log(lastLocation);
+
     const coords: Coordinates = {
         latitude: Number(lat || 45.4643),
         longitude: Number(lng || 9.1895),
@@ -30,6 +50,14 @@ export default async function Home({ searchParams }: HomeProps) {
 
     return (
         <main className={style.body}>
+            <LastLocationTracker
+                data={{
+                    id: locationId,
+                    location: name,
+                    lat: coords.latitude,
+                    lng: coords.longitude,
+                }}
+            />
             <Suspense>
                 <GeoLocationHandler />
             </Suspense>
