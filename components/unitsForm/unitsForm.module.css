@@ -1,0 +1,36 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+    background-color: var(--background);
+    border-radius: 12px;
+    width: 20rem;
+}
+
+.body > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.body select {
+    background-color: var(--text);
+    color: var(--background);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.submitButton {
+    background-color: var(--text2);
+    color: var(--background);
+    border-radius: 4px;
+    margin-left: auto;
+    padding: 0.25rem;
+    transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--text);
+    }
+}

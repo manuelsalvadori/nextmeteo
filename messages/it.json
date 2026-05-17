@@ -59,5 +59,11 @@
     "Favorites": {
         "title": "Località preferite",
         "noFavs": "Nessun preferito salvato"
+    },
+    "Options": {
+        "options": "Opzioni",
+        "windUnit": "Unità velocità vento",
+        "tempUnit": "Unità temperatura",
+        "prepUnit": "Unità precipitazioni"
     }
 }
