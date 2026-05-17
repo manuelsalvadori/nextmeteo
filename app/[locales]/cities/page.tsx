@@ -1,7 +1,7 @@
 import { getCurrentMeteoArray, getLocationById, LocationData } from "@/services/openmeteo";
 import { Link } from "@/i18n/navigation";
 import { cookies } from "next/headers";
-import { wmoCodes } from "@/utils/utils";
+import { defaultUnits, getTempSymbol, Units, wmoCodes } from "@/utils/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 import FavButton from "@/components/favButton/favButton";
 import styles from "./page.module.css";
@@ -16,12 +16,16 @@ export default async function Cities() {
     const rawValue = cookieStore.get("favs")?.value;
     const ids: number[] = rawValue ? JSON.parse(decodeURIComponent(rawValue)) : [];
 
+    const unitsRaw = cookieStore.get("units")?.value;
+    const units: Units = unitsRaw ? JSON.parse(decodeURIComponent(unitsRaw)) : defaultUnits;
+    const tempUnit = getTempSymbol(units.temperature);
+
     const citiesInfo = (await Promise.all(ids.map((id) => getLocationById(id, locale)))).filter(
         Boolean,
     ) as LocationData[];
 
     const coordsArray = citiesInfo.map((city) => city.coords);
-    const meteoResults = await getCurrentMeteoArray(coordsArray);
+    const meteoResults = await getCurrentMeteoArray(coordsArray, units);
 
     const citiesWithMeteo = citiesInfo.map((city, index) => ({
         ...city,
@@ -71,7 +75,8 @@ export default async function Cities() {
                                     />
 
                                     <p className={styles.temperature}>
-                                        {Math.round(city.currentMeteoData.temperature)}°C
+                                        {Math.round(city.currentMeteoData.temperature)}
+                                        {tempUnit}
                                     </p>
                                 </Link>
                             </li>

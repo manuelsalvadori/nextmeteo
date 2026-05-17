@@ -1,18 +1,22 @@
 import { HourlyMeteoData } from "@/services/openmeteo";
 import styles from "./hourly.module.css";
-import { wmoCodes } from "@/utils/utils";
+import { getTempSymbol, Units, wmoCodes } from "@/utils/utils";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import clsx from "clsx";
 
 export type HourlyProps = {
     data: HourlyMeteoData[];
+    units: Units;
 };
 
-export default function Hourly({ data }: HourlyProps) {
+export default async function Hourly({ data, units }: HourlyProps) {
+    const tempUnit = getTempSymbol(units.temperature);
+
     return (
         <div className={styles.body}>
             {data.map((d, i) => {
-                return <HourlyCard data={d} key={i} />;
+                return <HourlyCard data={d} key={i} tempUnit={tempUnit} />;
             })}
         </div>
     );
@@ -20,16 +24,19 @@ export default function Hourly({ data }: HourlyProps) {
 
 type HourlyCardProps = {
     data: HourlyMeteoData;
+    tempUnit: string;
 };
 
-async function HourlyCard({ data }: HourlyCardProps) {
+async function HourlyCard({ data, tempUnit }: HourlyCardProps) {
     const t = await getTranslations("WeatherDesc");
 
     const wCode = data.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
+    const now = new Date().getHours() === data.time.getHours();
+
     return (
-        <div className={styles.card}>
+        <div className={clsx(styles.card, now && styles.cardnow)}>
             <p>{data.time.getHours()}:00</p>
             <Image
                 src={wData.iconSmallPath}
@@ -38,7 +45,10 @@ async function HourlyCard({ data }: HourlyCardProps) {
                 width={32}
                 height={32}
             />
-            <p>{data.temperature.toFixed(0)}°C</p>
+            <p>
+                {data.temperature.toFixed(0)}
+                {tempUnit}
+            </p>
         </div>
     );
 }

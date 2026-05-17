@@ -1,17 +1,18 @@
-import { DailyMeteoData, WeeklyMeteoData } from "@/services/openmeteo";
+import { DailyMeteoData, getWeeklyMeteo } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
-import { Coordinates, wmoCodes } from "@/utils/utils";
+import { Coordinates, getTempSymbol, Units, wmoCodes } from "@/utils/utils";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import styles from "./weekly.module.css";
 
 export type WeeklyProps = {
-    weeklyData: WeeklyMeteoData;
     coords: Coordinates;
     location: string;
+    units: Units;
 };
 
-export default async function Weekly({ weeklyData, coords, location }: WeeklyProps) {
+export default async function Weekly({ coords, location, units }: WeeklyProps) {
+    const weeklyData = await getWeeklyMeteo(coords, units);
     return (
         <div className={styles.week}>
             {weeklyData.map((d, i) => (
@@ -19,6 +20,7 @@ export default async function Weekly({ weeklyData, coords, location }: WeeklyPro
                     key={i}
                     data={d}
                     href={`?location=${location}&lat=${coords.latitude}&lng=${coords.longitude}&day=${i}`}
+                    tempUnit={getTempSymbol(units.temperature)}
                 />
             ))}
         </div>
@@ -28,9 +30,10 @@ export default async function Weekly({ weeklyData, coords, location }: WeeklyPro
 type HourlyCardProps = {
     data: DailyMeteoData;
     href: string;
+    tempUnit: string;
 };
 
-async function WeeklyCard({ data, href }: HourlyCardProps) {
+async function WeeklyCard({ data, href, tempUnit }: HourlyCardProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
 
@@ -53,8 +56,14 @@ async function WeeklyCard({ data, href }: HourlyCardProps) {
                 />
                 <p>{description}</p>
                 <div>
-                    <p>{data.temperatureMin.toFixed(0)}°C</p>
-                    <p>{data.temperatureMax.toFixed(0)}°C</p>
+                    <p>
+                        {data.temperatureMin.toFixed(0)}
+                        {tempUnit}
+                    </p>
+                    <p>
+                        {data.temperatureMax.toFixed(0)}
+                        {tempUnit}
+                    </p>
                 </div>
             </div>
         </Link>

@@ -23,6 +23,10 @@
     }
 }
 
+.cardnow {
+    background-color: rgb(from var(--background) r g b / 0.8);
+}
+
 .card > p {
     margin: 0;
 }

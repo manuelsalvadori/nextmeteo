@@ -1,9 +1,16 @@
-import { secondsToHours, wmoCodes } from "@/utils/utils";
+import {
+    Coordinates,
+    getTempSymbol,
+    getWindSymbol,
+    secondsToHours,
+    Units,
+    wmoCodes,
+} from "@/utils/utils";
 import styles from "./daily.module.css";
 import Image from "next/image";
 import { WiHot, WiRaindrop, WiStrongWind, WiThermometer, WiWindDeg } from "react-icons/wi";
 import { WiCloud } from "react-icons/wi";
-import { DailyData } from "@/services/openmeteo";
+import { getCurrentMeteo } from "@/services/openmeteo";
 import { getTranslations } from "next-intl/server";
 import { GoSun } from "react-icons/go";
 import FavButton from "../favButton/favButton";
@@ -11,14 +18,17 @@ import FavButton from "../favButton/favButton";
 export type DailyProps = {
     locationId: number;
     location: string;
-    dailyData: DailyData;
+    coords: Coordinates;
     day: number;
+    units: Units;
 };
 
-export default async function Daily({ locationId, location, dailyData, day }: DailyProps) {
+export default async function Daily({ locationId, location, coords, day, units }: DailyProps) {
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
     const tm = await getTranslations("DayInfo");
+
+    const dailyData = await getCurrentMeteo(coords, day, units);
 
     const displayDay = new Date();
     displayDay.setDate(displayDay.getDate() + day);
@@ -30,6 +40,9 @@ export default async function Daily({ locationId, location, dailyData, day }: Da
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
     const daylightDuration = tm("duration", { hours: hours, minutes: minutes });
+
+    const tempUnit = getTempSymbol(units.temperature);
+    const windUnit = getWindSymbol(units.wind_speed);
 
     return (
         <div className={styles.day}>
@@ -52,7 +65,8 @@ export default async function Daily({ locationId, location, dailyData, day }: Da
                         </p>
                         <div className={styles.temperature}>
                             <p key={currentMeteoData.temperature}>
-                                {Math.round(currentMeteoData.temperature)}°C
+                                {Math.round(currentMeteoData.temperature)}
+                                {tempUnit}
                             </p>
                         </div>
                     </div>
@@ -74,14 +88,20 @@ export default async function Daily({ locationId, location, dailyData, day }: Da
                         <WiThermometer />
                         {tm("min")}
                     </span>
-                    <span>{Math.round(dailyMeteoData.temperatureMin)}°C</span>
+                    <span>
+                        {Math.round(dailyMeteoData.temperatureMin)}
+                        {tempUnit}
+                    </span>
                 </p>
                 <p>
                     <span>
                         <WiThermometer />
                         {tm("max")}
                     </span>
-                    <span>{Math.round(dailyMeteoData.temperatureMax)}°C</span>
+                    <span>
+                        {Math.round(dailyMeteoData.temperatureMax)}
+                        {tempUnit}
+                    </span>
                 </p>
                 <p>
                     <span>
@@ -111,7 +131,7 @@ export default async function Daily({ locationId, location, dailyData, day }: Da
                             }
                             title={Math.round(dailyMeteoData.windDirection) + "°"}
                         />{" "}
-                        {Math.round(dailyMeteoData.windSpeedMax)} km/h
+                        {Math.round(dailyMeteoData.windSpeedMax)} {windUnit}
                     </span>
                 </p>
             </div>

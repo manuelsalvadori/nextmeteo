@@ -1,10 +1,12 @@
-import { getCurrentMeteo, getHourlyMeteo, getWeeklyMeteo } from "@/services/openmeteo";
-import { Coordinates } from "@/utils/utils";
+import { getHourlyMeteo } from "@/services/openmeteo";
+import { Coordinates, defaultUnits, Units } from "@/utils/utils";
 import { GeoLocationHandler } from "@/components/GeoLocationHandler";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { LastLocationData } from "@/atoms/lastLocationAtom";
 import { LastLocationTracker } from "@/components/lastLocationTracker/lastLocationTracker";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 import SearchLocation from "@/components/searchLocation/searchLocation";
 import Hourly from "@/components/hourly/hourly";
 import Weekly from "@/components/weekly/weekly";
@@ -12,8 +14,6 @@ import Daily from "@/components/daily/daily";
 import Skeleton from "@/components/skeleton/skeleton";
 import ExtraData from "@/components/extraData/extraData";
 import style from "./page.module.css";
-import { redirect } from "@/i18n/navigation";
-import { getLocale } from "next-intl/server";
 
 type HomeProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -36,6 +36,9 @@ export default async function Home({ searchParams }: HomeProps) {
 
     console.log(lastLocation);
 
+    const unitsRaw = cookieStore.get("units")?.value;
+    const units: Units = unitsRaw ? JSON.parse(decodeURIComponent(unitsRaw)) : defaultUnits;
+
     const coords: Coordinates = {
         latitude: Number(lat || 45.4643),
         longitude: Number(lng || 9.1895),
@@ -44,9 +47,7 @@ export default async function Home({ searchParams }: HomeProps) {
     const locationId = Number(id || 3173435);
     const displayDay = Number(day || 0);
 
-    const currentMeteo = await getCurrentMeteo(coords, displayDay);
-    const hourlyMeteo = await getHourlyMeteo(coords, displayDay);
-    const weeklyMeteo = await getWeeklyMeteo(coords);
+    const hourlyMeteo = await getHourlyMeteo(coords, displayDay, units);
 
     return (
         <main className={style.body}>
@@ -68,18 +69,19 @@ export default async function Home({ searchParams }: HomeProps) {
                 <Daily
                     locationId={locationId}
                     location={name}
-                    dailyData={currentMeteo}
+                    coords={coords}
                     day={displayDay}
+                    units={units}
                 />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.hoursSkeleton} />}>
-                <Hourly data={hourlyMeteo} />
+                <Hourly data={hourlyMeteo} units={units} />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.dataSkeleton} />}>
-                <ExtraData data={hourlyMeteo} />
+                <ExtraData data={hourlyMeteo} units={units} />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.weekSkeleton} />}>
-                <Weekly weeklyData={weeklyMeteo} coords={coords} location={name} />
+                <Weekly coords={coords} location={name} units={units} />
             </Suspense>
         </main>
     );

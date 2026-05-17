@@ -15,13 +15,7 @@ export default function Sidemenu() {
             <Navbutton url='/cities' label='Città'>
                 <WiWindDeg size={30} />
             </Navbutton>
-            <Navbutton url='/cities' label='Opzioni'>
-                <IoIosOptions size={30} />
-            </Navbutton>
-            <Navbutton url='/cities' label='Account'>
-                <IoIosOptions size={30} />
-            </Navbutton>
-            <Navbutton url='/cities' label='Login'>
+            <Navbutton url='/options' label='Opzioni'>
                 <IoIosOptions size={30} />
             </Navbutton>
             <LanguageSwitcher />

@@ -18,9 +18,11 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import clsx from "clsx";
 import { WiRain, WiRaindrop, WiThermometer } from "react-icons/wi";
+import { getPrecipitationSymbol, getTempSymbol, Units } from "@/utils/utils";
 
 export type ExtraDataProps = {
     data: HourlyMeteoData[];
+    units: Units;
 };
 
 ChartJS.register(
@@ -37,14 +39,17 @@ ChartJS.register(
 // Definiamo i tipi di metriche disponibili
 type Metric = "humidity" | "precipitation" | "temperature";
 
-export default function ExtraData({ data }: ExtraDataProps) {
+export default function ExtraData({ data, units }: ExtraDataProps) {
     const t = useTranslations("MeteoData");
     const [selectedMetric, setSelectedMetric] = useState<Metric>("temperature");
 
     const METRIC_CONFIG = {
-        temperature: { label: t("temps"), unit: "°C" },
+        temperature: { label: t("temps"), unit: getTempSymbol(units.temperature) },
         humidity: { label: t("humidity"), unit: "%" },
-        precipitation: { label: t("precipitation"), unit: "mm" },
+        precipitation: {
+            label: t("precipitation"),
+            unit: getPrecipitationSymbol(units.precipitation),
+        },
     };
 
     const options = {

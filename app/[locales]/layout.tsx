@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { Montserrat } from "next/font/google";
+import { Provider } from "jotai";
 import Sidemenu from "@/components/sidemenu/Sidemenu";
 import QueryProvider from "@/components/QueryProvider";
 
@@ -26,10 +27,12 @@ export default function RootLayout({
             <body>
                 <NextIntlClientProvider>
                     <QueryProvider>
-                        <div className='content'>
-                            <Sidemenu />
-                            {children}
-                        </div>
+                        <Provider>
+                            <div className='content'>
+                                <Sidemenu />
+                                {children}
+                            </div>
+                        </Provider>
                     </QueryProvider>
                 </NextIntlClientProvider>
             </body>

@@ -74,3 +74,27 @@ export type Location = {
     name: string;
     coords: Coordinates;
 };
+
+export type Units = {
+    wind_speed: "kmh" | "mph";
+    temperature: "celsius" | "fahrenheit";
+    precipitation: "mm" | "inch";
+};
+
+export const defaultUnits: Units = {
+    wind_speed: "kmh",
+    temperature: "celsius",
+    precipitation: "mm",
+};
+
+export function getTempSymbol(temp: Units["temperature"]) {
+    return temp === "celsius" ? "°C" : "°F";
+}
+
+export function getWindSymbol(temp: Units["wind_speed"]) {
+    return temp === "kmh" ? "km/h" : "mph";
+}
+
+export function getPrecipitationSymbol(temp: Units["precipitation"]) {
+    return temp === "mm" ? "mm" : "″";
+}

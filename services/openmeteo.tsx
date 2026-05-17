@@ -1,9 +1,9 @@
 "server only";
-import { Coordinates } from "@/utils/utils";
+import { Coordinates, Units } from "@/utils/utils";
 import { fetchWeatherApi } from "openmeteo";
 import z from "zod";
 
-export async function getMeteo(coords: Coordinates) {
+export async function getMeteo(coords: Coordinates, units: Units) {
     //console.log(request);
 
     const params = {
@@ -12,6 +12,9 @@ export async function getMeteo(coords: Coordinates) {
         hourly: ["temperature_2m", "weather_code"],
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         timezone: "auto",
+        wind_speed_unit: units.wind_speed,
+        temperature_unit: units.temperature,
+        precipitation_unit: units.precipitation,
         forecast_days: 1,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
@@ -81,7 +84,7 @@ export async function getMeteo(coords: Coordinates) {
 
 const weekArray = [0, 1, 2, 3, 4, 5, 6] as const;
 
-export async function getWeeklyMeteo(coords: Coordinates) {
+export async function getWeeklyMeteo(coords: Coordinates, units: Units) {
     //console.log(request);
 
     const params = {
@@ -89,6 +92,9 @@ export async function getWeeklyMeteo(coords: Coordinates) {
         longitude: coords.longitude,
         daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         timezone: "auto",
+        wind_speed_unit: units.wind_speed,
+        temperature_unit: units.temperature,
+        precipitation_unit: units.precipitation,
         forecast_days: 7,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
@@ -135,12 +141,15 @@ export async function getWeeklyMeteo(coords: Coordinates) {
     return weatherData;
 }
 
-export async function getHourlyMeteo(coords: Coordinates, day: number) {
+export async function getHourlyMeteo(coords: Coordinates, day: number, units: Units) {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
         hourly: ["temperature_2m", "weather_code", "precipitation", "relative_humidity_2m"],
         timezone: "auto",
+        wind_speed_unit: units.wind_speed,
+        temperature_unit: units.temperature,
+        precipitation_unit: units.precipitation,
         forecast_days: 7,
     };
 
@@ -193,7 +202,11 @@ export async function getHourlyMeteo(coords: Coordinates, day: number) {
     return HourlyMeteoArraySchema.parse(hourlyArray);
 }
 
-export async function getCurrentMeteo(coords: Coordinates, day: number): Promise<DailyData> {
+export async function getCurrentMeteo(
+    coords: Coordinates,
+    day: number,
+    units: Units,
+): Promise<DailyData> {
     const params = {
         latitude: coords.latitude,
         longitude: coords.longitude,
@@ -211,6 +224,9 @@ export async function getCurrentMeteo(coords: Coordinates, day: number): Promise
         ],
         timezone: "auto",
         forecast_days: 7,
+        wind_speed_unit: units.wind_speed,
+        temperature_unit: units.temperature,
+        precipitation_unit: units.precipitation,
     };
     const url = "https://api.open-meteo.com/v1/forecast";
     const responses = await fetchWeatherApi(url, params);
@@ -248,7 +264,7 @@ export async function getCurrentMeteo(coords: Coordinates, day: number): Promise
     return { currentMeteoData: weatherData, dailyMeteoData: dailyData };
 }
 
-export async function getCurrentMeteoArray(coords: Coordinates[]) {
+export async function getCurrentMeteoArray(coords: Coordinates[], units: Units) {
     const lats = coords.map((c) => c.latitude);
     const lons = coords.map((c) => c.longitude);
 
@@ -258,6 +274,9 @@ export async function getCurrentMeteoArray(coords: Coordinates[]) {
         current: ["temperature_2m", "relative_humidity_2m", "weather_code", "cloud_cover"],
         timezone: "auto",
         forecast_days: 1,
+        wind_speed_unit: units.wind_speed,
+        temperature_unit: units.temperature,
+        precipitation_unit: units.precipitation,
     };
 
     const url = "https://api.open-meteo.com/v1/forecast";
