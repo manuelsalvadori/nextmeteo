@@ -8,15 +8,16 @@ import clsx from "clsx";
 export type HourlyProps = {
     data: HourlyMeteoData[];
     units: Units;
+    day: number;
 };
 
-export default async function Hourly({ data, units }: HourlyProps) {
+export default async function Hourly({ data, units, day }: HourlyProps) {
     const tempUnit = getTempSymbol(units.temperature);
 
     return (
         <div className={styles.body}>
             {data.map((d, i) => {
-                return <HourlyCard data={d} key={i} tempUnit={tempUnit} />;
+                return <HourlyCard data={d} key={i} tempUnit={tempUnit} day={day} />;
             })}
         </div>
     );
@@ -25,9 +26,10 @@ export default async function Hourly({ data, units }: HourlyProps) {
 type HourlyCardProps = {
     data: HourlyMeteoData;
     tempUnit: string;
+    day: number;
 };
 
-async function HourlyCard({ data, tempUnit }: HourlyCardProps) {
+async function HourlyCard({ data, tempUnit, day }: HourlyCardProps) {
     const t = await getTranslations("WeatherDesc");
 
     const wCode = data.weatherCode;
@@ -36,7 +38,7 @@ async function HourlyCard({ data, tempUnit }: HourlyCardProps) {
     const now = new Date().getHours() === data.time.getHours();
 
     return (
-        <div className={clsx(styles.card, now && styles.cardnow)}>
+        <div className={clsx(styles.card, day === 0 && now && styles.cardnow)}>
             <p>{data.time.getHours()}:00</p>
             <Image
                 src={wData.iconSmallPath}

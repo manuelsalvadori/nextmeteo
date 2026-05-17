@@ -75,7 +75,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.hoursSkeleton} />}>
-                <Hourly data={hourlyMeteo} units={units} />
+                <Hourly data={hourlyMeteo} units={units} day={displayDay} />
             </Suspense>
             <Suspense fallback={<Skeleton className={style.dataSkeleton} />}>
                 <ExtraData data={hourlyMeteo} units={units} />

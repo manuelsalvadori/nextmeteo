@@ -48,7 +48,7 @@ export default function UnitsForm({ units }: { units: Units }) {
             </div>
 
             <button type='submit' className={styles.submitButton}>
-                SAVE
+                {t("save")}
             </button>
         </form>
     );

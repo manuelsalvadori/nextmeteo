@@ -64,6 +64,13 @@
         "options": "Opzioni",
         "windUnit": "Unità velocità vento",
         "tempUnit": "Unità temperatura",
-        "prepUnit": "Unità precipitazioni"
+        "prepUnit": "Unità precipitazioni",
+        "save": "Salva"
+    },
+    "Menu": {
+        "meteo": "Meteo",
+        "cities": "Città",
+        "options": "Opzioni",
+        "about": "About"
     }
 }
