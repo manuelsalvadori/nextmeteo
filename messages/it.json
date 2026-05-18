@@ -72,5 +72,9 @@
         "cities": "Città",
         "options": "Opzioni",
         "about": "About"
+    },
+    "About": {
+        "desc": "Next Meteo è una moderna applicazione web meteo minimalista e ad alte prestazioni, sviluppata con Next.js. Creata come progetto hobby.",
+        "license": "Licenza"
     }
 }

@@ -3,6 +3,10 @@
     border-radius: 12px;
     flex: 1;
     padding: 2rem;
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--text2) transparent;
 }
 
 .stackGrid {

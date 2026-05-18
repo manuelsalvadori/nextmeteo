@@ -8,6 +8,10 @@ export default async function Page() {
     return (
         <div className={styles.body}>
             <h1>About</h1>
+            <p>
+                Next Meteo is a modern, high-performance, and minimalist weather web application
+                built with Next.js. Developed as a hobby project.
+            </p>
             <h3>Repository</h3>
             <a className={styles.github} href='https://github.com/manuelsalvadori/nextmeteo'>
                 <FaGithub size={24} />
