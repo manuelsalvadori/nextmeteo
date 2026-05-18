@@ -9,9 +9,10 @@ export default async function Page() {
         <div className={styles.body}>
             <h1>About</h1>
             <h3>Repository</h3>
-            <div>
-                <FaGithub />
-            </div>
+            <a className={styles.github} href='https://github.com/manuelsalvadori/nextmeteo'>
+                <FaGithub size={24} />
+                <span>https://github.com/manuelsalvadori/nextmeteo</span>
+            </a>
             <h3>Stack</h3>
             <div className={styles.stackGrid}>
                 <div className={styles.gridElement}>

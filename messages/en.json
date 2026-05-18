@@ -28,5 +28,49 @@
         "95": "Thunderstorm",
         "96": "Thunderstorm w/ Hail",
         "99": "Light Thunderstorm w/ Hail"
+    },
+    "Weekdays": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
+    },
+    "DayInfo": {
+        "duration": "{hours}h {minutes}m",
+        "daylight": "Daylight hours",
+        "max": "Max",
+        "min": "Min",
+        "uv": "UV Index",
+        "wind": "Wind"
+    },
+    "MeteoData": {
+        "humidity": "Humidity",
+        "precipitation": "Precipitation",
+        "temps": "Temperatures",
+        "cloudcover": "Cloud cover"
+    },
+    "FavButton": {
+        "altAdd": "Add to favorites",
+        "altRemove": "Remove from favorites"
+    },
+    "Favorites": {
+        "title": "Favorite locations",
+        "noFavs": "No favorites saved"
+    },
+    "Options": {
+        "options": "Options",
+        "windUnit": "Wind speed unit",
+        "tempUnit": "Temperature unit",
+        "prepUnit": "Precipitation unit",
+        "save": "Save"
+    },
+    "Menu": {
+        "meteo": "Weather",
+        "cities": "Cities",
+        "options": "Options",
+        "about": "About"
     }
 }

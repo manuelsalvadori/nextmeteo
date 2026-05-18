@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next Meteo
 
-## Getting Started
+**Next Meteo** is a modern, high-performance, and minimalist weather web application built with Next.js. Developed as a hobby project, it serves as a playground to explore advanced state management, internationalization, and fluid animations in the modern React ecosystem.
 
-First, run the development server:
+Powered by the Open-Meteo API, it provides accurate, real-time forecasts, rich interactive charts, and multi-language support—all bundled into a seamless user experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Global Search:** Check current weather and forecasts for any city worldwide.
+- **Geolocation Support:** Instantly fetches local weather based on the user's current location.
+- **Interactive Analytics:** Beautifully rendered temperature, humidity, and wind trends powered by Chart.js.
+- **Multi-language (i18n):** Fully localized interface using `next-intl`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+This project leverages a modern, type-safe frontend ecosystem built for speed and developer experience:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Runtime & Package Manager:** [Bun](https://bun.sh/) (Blazing fast bundling and script execution)
+- **Framework:** [Next.js](https://nextjs.org/) (App Router) & [React](https://react.dev/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/) (Strictly typed)
+- **Data Validation:** [Zod](https://zod.dev/) (Robust API response schema validation)
+- **Styling:** [CSS Modules](https://github.com/css-modules/css-modules) (Scoped, maintainable, and lightweight CSS)
+- **Data Fetching:** [TanStack Query](https://tanstack.com/query/latest) (Asynchronous state, caching, and background synchronization)
+- **Global State Management:** [Jotai](https://jotai.org/) (Atomic and minimalist state approach for settings and UI preferences)
+- **Weather API:** [Open-Meteo](https://open-meteo.com/) (Free, developer-friendly, and no-API-key-required meteorological data)
+- **Data Visualization:** [Chart.js](https://www.chartjs.org/) (Dynamic canvas-based data charts)
+- **Internationalization:** [next-intl](https://next-intl-docs.vercel.app/) (Seamless i18n integration for Next.js)
+- **Animations:** [Motion](https://motion.dev/) (Formerly Framer Motion, powering production-ready animations)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
