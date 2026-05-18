@@ -25,3 +25,16 @@
         margin: 0;
     }
 }
+
+.body h1 {
+    margin-top: 0;
+}
+
+.body h3 {
+    font-weight: 500;
+}
+
+.body a {
+    color: var(--text);
+    text-decoration: underline;
+}
