@@ -32,3 +32,7 @@ This project leverages a modern, type-safe frontend ecosystem built for speed an
 - **Animations:** [Motion](https://motion.dev/) (Formerly Framer Motion, powering production-ready animations)
 
 ---
+
+## Privacy
+
+Next Meteo is GDPR-compliant by design: it features zero tracking, zero analytics, zero server-side data storage, and uses local storage strictly for user-requested functional preferences (hence requiring no cookie banners).

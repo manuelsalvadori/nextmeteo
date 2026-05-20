@@ -1,0 +1,26 @@
+.body {
+    background-color: var(--foreground);
+    border-radius: 12px;
+    flex: 1;
+    padding: 2rem;
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--text2) transparent;
+}
+
+.body a {
+    color: var(--text2);
+
+    &:hover {
+        color: var(--text);
+    }
+}
+
+.body h1 {
+    margin-top: 0;
+}
+
+.body h2 {
+    font-size: 1.25rem;
+}

@@ -75,6 +75,42 @@
     },
     "About": {
         "desc": "Next Meteo è una moderna applicazione web meteo minimalista e ad alte prestazioni, sviluppata con Next.js. Creata come progetto hobby.",
-        "license": "Licenza"
+        "license": "Licenza",
+        "privacy": "Next Meteo è conforme al GDPR fin dalla progettazione: non utilizza tracciamento, analytics o archiviazione lato server dei dati e usa l'archiviazione locale esclusivamente per le preferenze funzionali richieste dall'utente.",
+        "privacypolicy": "Informativa sulla privacy",
+        "fullpp": "Informativa sulla privacy completa"
+    },
+    "Privacy": {
+        "title": "Informativa sulla Privacy di Next Meteo",
+        "lastUpdated": "Ultimo aggiornamento: 20 maggio 2026",
+        "intro": "Grazie per utilizzare <strong>Next Meteo</strong>. La tua privacy è estremamente importante per noi. Questa Informativa sulla Privacy spiega come gestiamo le tue informazioni quando utilizzi la nostra applicazione web.",
+        "section1": {
+            "title": "1. Nessuna raccolta di dati personali",
+            "p1": "Next Meteo è nato come un progetto hobby minimalista e orientato alla privacy. <strong>Non raccogliamo, memorizziamo o condividiamo alcun dato personale.</strong>",
+            "li1": "Non sono previsti account utente.",
+            "li2": "Non tracciamo la cronologia delle tue ricerche.",
+            "li3": "Non raccogliamo il tuo indirizzo IP o gli identificativi del dispositivo."
+        },
+        "section2": {
+            "title": "2. Dati di geolocalizzazione",
+            "p1": "Se utilizzi la funzione 'Posizione Attuale', l'app richiede l'accesso alle coordinate geografiche del tuo dispositivo tramite l'API di geolocalizzazione nativa del browser.",
+            "li1": "Questi dati vengono <strong>elaborati esclusivamente sul lato client</strong> (il tuo dispositivo) per recuperare il meteo della tua zona.",
+            "li2": "Le coordinate della tua posizione vengono inviate direttamente al fornitore del servizio meteo (<link>Open-Meteo</link>) per ottenere le previsioni.",
+            "li3": "Non memorizziamo né registriamo <strong>mai</strong> la tua posizione su alcun server."
+        },
+        "section3": {
+            "title": "3. Cookie e Local Storage",
+            "p1": "Next Meteo non utilizza cookie di tracciamento, pubblicitari o di analisi di terze parti. Utilizziamo la memoria locale del browser esclusivamente per scopi essenziali e funzionali:",
+            "li1": "<strong>Cookie funzionali / LocalStorage:</strong> Utilizziamo questi strumenti solo per ricordare le preferenze dell'interfaccia utente (come il tema Chiaro/Scuro, le unità di misura scelte per temperatura/vento e le città preferite salvate).",
+            "li2": "Queste impostazioni rimangono rigorosamente sul tuo dispositivo e non vengono mai trasmesse a noi."
+        },
+        "section4": {
+            "title": "4. Servizi di terze parti",
+            "p1": "La nostra app recupera i dati meteorologici da <strong>Open-Meteo</strong>. Quando l'app richiede una previsione, il tuo browser comunica direttamente con le loro API. Open-Meteo è un servizio rispettoso della privacy che non traccia gli utenti né memorizza dati personali. Puoi consultare la loro informativa qui: <link>Informativa sulla Privacy di Open-Meteo</link>."
+        },
+        "section5": {
+            "title": "5. Modifiche alla presente informativa",
+            "p1": "Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto per riflettere gli aggiornamenti funzionali dell'app. Qualsiasi modifica sarà pubblicata su questa pagina con una data di 'Ultimo aggiornamento' modificata."
+        }
     }
 }

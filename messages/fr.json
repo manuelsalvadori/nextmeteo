@@ -1,0 +1,116 @@
+{
+    "WeatherDesc": {
+        "0": "Ciel dégagé",
+        "1": "Principalement dégagé",
+        "2": "Partiellement nuageux",
+        "3": "Couvert",
+        "45": "Brouillard",
+        "48": "Brouillard givrant",
+        "51": "Bruine légère",
+        "53": "Bruine",
+        "55": "Forte bruine",
+        "80": "Averses légères",
+        "81": "Averses",
+        "82": "Fortes averses",
+        "61": "Pluie légère",
+        "63": "Pluie",
+        "65": "Forte pluie",
+        "56": "Bruine verglaçante légère",
+        "57": "Bruine verglaçante",
+        "66": "Pluie verglaçante légère",
+        "67": "Pluie verglaçante",
+        "71": "Neige légère",
+        "73": "Neige",
+        "75": "Forte neige",
+        "77": "Grains de neige",
+        "85": "Faibles averses de neige",
+        "86": "Averses de neige",
+        "95": "Orage",
+        "96": "Orage avec grêle",
+        "99": "Orage léger avec grêle"
+    },
+    "Weekdays": {
+        "0": "Dimanche",
+        "1": "Lundi",
+        "2": "Mardi",
+        "3": "Mercredi",
+        "4": "Jeudi",
+        "5": "Vendredi",
+        "6": "Samedi"
+    },
+    "DayInfo": {
+        "duration": "{hours}h {minutes}m",
+        "daylight": "Heures de clarté",
+        "max": "Max",
+        "min": "Min",
+        "uv": "Indice UV",
+        "wind": "Vent"
+    },
+    "MeteoData": {
+        "humidity": "Humidité",
+        "precipitation": "Précipitations",
+        "temps": "Températures",
+        "cloudcover": "Couverture nuageuse"
+    },
+    "FavButton": {
+        "altAdd": "Ajouter aux favoris",
+        "altRemove": "Retirer des favoris"
+    },
+    "Favorites": {
+        "title": "Lieux favoris",
+        "noFavs": "Aucun favori enregistré"
+    },
+    "Options": {
+        "options": "Options",
+        "windUnit": "Unité de vitesse du vent",
+        "tempUnit": "Unité de température",
+        "prepUnit": "Unité des précipitations",
+        "save": "Enregistrer"
+    },
+    "Menu": {
+        "meteo": "Météo",
+        "cities": "Villes",
+        "options": "Options",
+        "about": "About"
+    },
+    "About": {
+        "desc": "Next Meteo est une application météo web moderne, performante et minimaliste développée avec Next.js. Réalisée comme projet personnel.",
+        "license": "Licence",
+        "privacy": "Next Meteo est conforme au RGPD dès sa conception : aucun suivi, aucune analyse, aucun stockage de données côté serveur, et le stockage local est utilisé uniquement pour les préférences fonctionnelles demandées par l’utilisateur.",
+        "privacypolicy": "Politique de confidentialité",
+        "fullpp": "Politique de confidentialité complète"
+    },
+    "Privacy": {
+        "title": "Politique de Confidentialité de Next Meteo",
+        "lastUpdated": "Dernière mise à jour : 20 mai 2026",
+        "intro": "Merci d'utiliser <strong>Next Meteo</strong>. Votre vie privée est extrêmement importante pour nous. Cette Politique de Confidentialité explique comment nous traitons vos informations lorsque vous utilisez notre application web.",
+        "section1": {
+            "title": "1. Aucune collecte de données personnelles",
+            "p1": "Next Meteo est conçu comme un projet personnel minimaliste et axé sur la confidentialité. <strong>Nous ne collectons, ne stockons et ne partageons aucune donnée personnelle.</strong>",
+            "li1": "Nous n'avons pas de comptes d'utilisateurs.",
+            "li2": "Nous ne suivons pas votre historique de recherche.",
+            "li3": "Nous ne collectons pas votre adresse IP ni les identifiants de votre appareil."
+        },
+        "section2": {
+            "title": "2. Données de géolocalisation",
+            "p1": "Si vous utilisez la fonctionnalité 'Position Actuelle', l'application demande l'accès aux coordonnées géographiques de votre appareil via l'API de géolocalisation native du navigateur.",
+            "li1": "Ces données sont <strong>traitées exclusivement du côté client</strong> (votre appareil) pour récupérer la météo de votre région.",
+            "li2": "Vos coordonnées géographiques sont envoyées directement au fournisseur de services météo (<link>Open-Meteo</link>) pour obtenir les prévisions.",
+            "li3": "Nous ne stockons et n'enregistrons <strong>jamais</strong> votre position sur aucun serveur."
+        },
+        "section3": {
+            "title": "3. Cookies et Stockage Local",
+            "p1": "Next Meteo n'utilise pas de cookies de suivi, publicitaires ou d'analyse tiers. Nous utilisons uniquement le stockage local du navigateur à des fins essentielles et fonctionnelles :",
+            "li1": "<strong>Cookies fonctionnels / LocalStorage :</strong> Nous les utilisons uniquement pour mémoriser vos préférences d'interface (telles que le thème Sombre/Clair, les unités de température/vent choisies et vos villes favorites enregistrées).",
+            "li2": "Ces paramètres restent strictement sur votre propre appareil et ne nous sont jamais transmis."
+        },
+        "section4": {
+            "title": "4. Services tiers",
+            "p1": "Notre application récupère les données météorologiques auprès d'<strong>Open-Meteo</strong>. Lorsque l'application demande une prévision, votre navigateur communique directement avec leur API. Open-Meteo est un service respectueux de la vie privée qui ne suit pas les utilisateurs et ne stocke pas de données personnelles. Vous pouvez consulter leur politique ici : <link>Politique de Confidentialité d'Open-Meteo</link>."
+        },
+        "section5": {
+            "title": "5. Modifications de cette politique",
+            "p1": "Nous pouvons mettre à jour cette Politique de Confidentialité de temps à autre pour refléter les évolutions fonctionnelles de l'application. Toute modification sera publiée sur cette page avec une date de 'Dernière mise à jour' actualisée."
+        }
+    }
+}
