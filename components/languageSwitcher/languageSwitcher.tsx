@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Locale, locales, localesLabel } from "@/i18n/locales";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import styles from "./languageSwitcher.module.css";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
 
 export default function LanguageSwitcher() {
     const [showLangs, setShowLangs] = useState(false);

@@ -10,10 +10,8 @@
         "day week"
         "hours week"
         "data week";
-}
 
-@media (max-width: 700px) {
-    .body {
+    @media only screen and (max-width: 768px) {
         width: 100%;
         grid-template-rows: 2rem min-content min-content min-content min-content;
         grid-template-columns: 1fr;
@@ -25,6 +23,7 @@
             "hours"
             "week"
             "data";
+        overflow: auto;
     }
 }
 

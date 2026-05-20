@@ -2,6 +2,10 @@
     position: relative;
     margin-top: auto;
     isolation: isolate;
+
+    @media only screen and (max-width: 768px) {
+        margin-top: 0;
+    }
 }
 
 .button {
@@ -16,6 +20,15 @@
     color: var(--text2);
     gap: 0.25rem;
     cursor: pointer;
+
+    @media only screen and (max-width: 768px) {
+        width: 3rem;
+        height: 3rem;
+
+        & p {
+            display: none;
+        }
+    }
 }
 
 .button:hover {
@@ -38,6 +51,14 @@
     border-radius: 10px;
     border: 1px solid var(--text);
     z-index: -1;
+
+    @media only screen and (max-width: 768px) {
+        bottom: unset;
+        left: unset;
+        top: 100%;
+        right: 0;
+        z-index: 120;
+    }
 }
 
 .langOptions::before {
