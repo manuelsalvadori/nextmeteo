@@ -13,17 +13,19 @@
 
     @media only screen and (max-width: 768px) {
         width: 100%;
-        grid-template-rows: 2rem min-content min-content min-content min-content;
+        max-width: 100%;
+        min-width: 0;
         grid-template-columns: 1fr;
+        grid-template-rows: 2rem min-content min-content min-content min-content;
         row-gap: 1rem;
         flex: 1;
         grid-template-areas:
             "search"
             "day"
             "hours"
-            "week"
-            "data";
-        overflow: auto;
+            "data"
+            "week";
+        overflow-y: auto;
     }
 }
 
