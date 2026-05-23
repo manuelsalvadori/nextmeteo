@@ -14,6 +14,10 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
     margin-bottom: 2rem;
+
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .gridElement {
@@ -36,6 +40,17 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     margin-bottom: 2rem;
+
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+
+        & span {
+            overflow-wrap: break-word;
+            word-break: break-all;
+            text-wrap: wrap;
+            text-wrap-mode: wrap;
+        }
+    }
 }
 
 .body h1 {

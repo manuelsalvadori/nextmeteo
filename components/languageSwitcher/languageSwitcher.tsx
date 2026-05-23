@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Locale, locales, localesLabel } from "@/i18n/locales";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -12,13 +12,27 @@ export default function LanguageSwitcher() {
     const pathname = usePathname();
     const currentLocale = useLocale() as Locale;
 
+    const isTouchDevice = useMemo(() => {
+        if (typeof window === "undefined") return false;
+
+        return (
+            ("ontouchstart" in window ||
+                navigator.maxTouchPoints > 0 ||
+                window.matchMedia("(pointer: coarse)").matches) &&
+            !window.matchMedia("(pointer: fine)").matches
+        );
+    }, []);
+
     return (
         <div
             className={styles.wrapper}
-            onMouseEnter={() => setShowLangs(true)}
-            onMouseLeave={() => setShowLangs(false)}
+            onMouseEnter={() => !isTouchDevice && setShowLangs(true)}
+            onMouseLeave={() => !isTouchDevice && setShowLangs(false)}
         >
-            <button className={styles.button} onClick={() => setShowLangs((prev) => !prev)}>
+            <button
+                className={styles.button}
+                onClick={() => isTouchDevice && setShowLangs((prev) => !prev)}
+            >
                 <Image
                     src={`https://hatscripts.github.io/circle-flags/flags/language/${currentLocale}.svg`}
                     alt={currentLocale}

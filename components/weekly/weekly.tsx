@@ -4,6 +4,7 @@ import { Coordinates, getTempSymbol, Units, wmoCodes } from "@/utils/utils";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import styles from "./weekly.module.css";
+import ScrollResetter from "../scrollResetter/scrollResetter";
 
 export type WeeklyProps = {
     coords: Coordinates;
@@ -15,6 +16,7 @@ export default async function Weekly({ coords, location, units }: WeeklyProps) {
     const weeklyData = await getWeeklyMeteo(coords, units);
     return (
         <div className={styles.week}>
+            <ScrollResetter />
             {weeklyData.map((d, i) => (
                 <WeeklyCard
                     key={i}
