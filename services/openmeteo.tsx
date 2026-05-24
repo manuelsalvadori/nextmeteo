@@ -182,15 +182,23 @@ export async function getHourlyMeteo(coords: Coordinates, day: number, units: Un
 
     const hourlyArray = [];
 
+    const timeFormatter = new Intl.DateTimeFormat("sv-SE", {
+        timeZone: timezone,
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
     for (let i = 0; i < numElements; i++) {
         const timestampMs = (startTime + i * interval) * 1000;
         const date = new Date(timestampMs);
 
         const currentDateString = dateFormatter.format(date);
 
+        const localTimeString = timeFormatter.format(date);
+
         if (currentDateString === targetDateString) {
             hourlyArray.push({
-                time: date.toISOString(),
+                time: localTimeString,
                 temperature: temps[i],
                 weatherCode: codes[i],
                 precipitation: precipit[i],

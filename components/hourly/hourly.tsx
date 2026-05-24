@@ -38,12 +38,13 @@ async function HourlyCard({ data, tempUnit, day }: HourlyCardProps) {
     const description = t(wCode.toString() as never);
 
     const nowhour = new Date().getHours();
-    const time = new Date(data.time);
-    const now = nowhour === time.getHours() || nowhour === time.getHours() + 1;
+    const now =
+        nowhour === Number(data.time.split(":")[0]) ||
+        nowhour === Number(data.time.split(":")[0]) + 1;
 
     return (
         <div className={clsx(styles.card, day === 0 && now && styles.cardnow)}>
-            <p>{time.getHours()}:00</p>
+            <p>{data.time}</p>
             <Image
                 src={wData.iconSmallPath}
                 alt={description}
