@@ -18,7 +18,7 @@ export default async function Hourly({ data, units, day }: HourlyProps) {
         <div className={styles.body}>
             {data.map((d, i) => {
                 if (i % 2 !== 0) return null;
-                return <HourlyCard data={d} key={i} tempUnit={tempUnit} day={day} />;
+                return <HourlyCard data={d} key={i} tempUnit={tempUnit} />;
             })}
         </div>
     );
@@ -27,23 +27,17 @@ export default async function Hourly({ data, units, day }: HourlyProps) {
 type HourlyCardProps = {
     data: HourlyMeteoData;
     tempUnit: string;
-    day: number;
 };
 
-async function HourlyCard({ data, tempUnit, day }: HourlyCardProps) {
+async function HourlyCard({ data, tempUnit }: HourlyCardProps) {
     const t = await getTranslations("WeatherDesc");
 
     const wCode = data.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
 
-    const nowhour = new Date().getHours();
-    const now =
-        nowhour === Number(data.time.split(":")[0]) ||
-        nowhour === Number(data.time.split(":")[0]) + 1;
-
     return (
-        <div className={clsx(styles.card, day === 0 && now && styles.cardnow)}>
+        <div className={styles.card}>
             <p>{data.time}</p>
             <Image
                 src={wData.iconSmallPath}
