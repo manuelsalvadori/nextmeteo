@@ -42,6 +42,7 @@ async function WeeklyCard({ data, href, tempUnit }: HourlyCardProps) {
     const wCode = data.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
+
     return (
         <Link href={href} className={styles.weekCard}>
             <p className={styles.weekDay}>
@@ -56,7 +57,6 @@ async function WeeklyCard({ data, href, tempUnit }: HourlyCardProps) {
                     height={16 * 3}
                     preload
                 />
-                <p>{description}</p>
                 <div>
                     <p>
                         {data.temperatureMin.toFixed(0)}

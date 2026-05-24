@@ -1,6 +1,6 @@
 .body {
     display: grid;
-    grid-template-rows: 2rem 1fr 1fr 1fr;
+    grid-template-rows: 2rem 4fr min-content 5fr;
     grid-template-columns: 2fr 1fr;
     column-gap: 1.25rem;
     row-gap: 1rem;

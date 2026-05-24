@@ -17,6 +17,7 @@ export default async function Hourly({ data, units, day }: HourlyProps) {
     return (
         <div className={styles.body}>
             {data.map((d, i) => {
+                if (i % 2 !== 0) return null;
                 return <HourlyCard data={d} key={i} tempUnit={tempUnit} day={day} />;
             })}
         </div>
@@ -35,7 +36,9 @@ async function HourlyCard({ data, tempUnit, day }: HourlyCardProps) {
     const wCode = data.weatherCode;
     const wData = wmoCodes[wCode];
     const description = t(wCode.toString() as never);
-    const now = new Date().getHours() === data.time.getHours();
+
+    const nowhour = new Date().getHours();
+    const now = nowhour === data.time.getHours() || nowhour === data.time.getHours() + 1;
 
     return (
         <div className={clsx(styles.card, day === 0 && now && styles.cardnow)}>

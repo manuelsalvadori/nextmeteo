@@ -167,9 +167,9 @@ export async function getHourlyMeteo(coords: Coordinates, day: number, units: Un
         day: "2-digit",
     });
 
-    const now = new Date();
-    const targetDate = new Date(now);
-    targetDate.setDate(now.getDate() + day);
+    const nowInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
+    const targetDate = new Date(nowInTimezone);
+    targetDate.setDate(nowInTimezone.getDate() + day);
     const targetDateString = dateFormatter.format(targetDate);
 
     const startTime = Number(hourly.time());
