@@ -112,5 +112,10 @@
             "title": "5. Modifiche alla presente informativa",
             "p1": "Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto per riflettere gli aggiornamenti funzionali dell'app. Qualsiasi modifica sarà pubblicata su questa pagina con una data di 'Ultimo aggiornamento' modificata."
         }
+    },
+    "search": {
+        "searchLocation": "Cerca località...",
+        "loading": "Caricamento...",
+        "noResults": "Nessun risultato"
     }
 }

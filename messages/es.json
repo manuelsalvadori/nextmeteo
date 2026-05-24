@@ -112,5 +112,10 @@
             "title": "5. Cambios en esta política",
             "p1": "Es posible que actualicemos esta Política de Privacidad de vez en cuando para reflejar las actualizaciones funcionales de la aplicación. Cualquier cambio se publicará en esta página con una fecha de 'Última actualización' modificada."
         }
+    },
+    "search": {
+        "searchLocation": "Buscar ubicación...",
+        "loading": "Cargando...",
+        "noResults": "Sin resultados"
     }
 }

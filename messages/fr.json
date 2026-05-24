@@ -112,5 +112,10 @@
             "title": "5. Modifications de cette politique",
             "p1": "Nous pouvons mettre à jour cette Politique de Confidentialité de temps à autre pour refléter les évolutions fonctionnelles de l'application. Toute modification sera publiée sur cette page avec une date de 'Dernière mise à jour' actualisée."
         }
+    },
+    "search": {
+        "searchLocation": "Rechercher un lieu...",
+        "loading": "Chargement...",
+        "noResults": "Aucun résultat"
     }
 }

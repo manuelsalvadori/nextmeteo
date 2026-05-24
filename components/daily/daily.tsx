@@ -27,6 +27,7 @@ export default async function Daily({ locationId, location, coords, day, units }
     const t = await getTranslations("WeatherDesc");
     const td = await getTranslations("Weekdays");
     const tm = await getTranslations("DayInfo");
+    const tmd = await getTranslations("MeteoData");
 
     const dailyData = await getCurrentMeteo(coords, day, units);
 
@@ -57,11 +58,11 @@ export default async function Daily({ locationId, location, coords, day, units }
                     <div>
                         <p className={styles.rain}>
                             <WiCloud />
-                            Copertura nuvolosa: {Math.round(currentMeteoData.cloudCover)}%
+                            {tmd("cloudcover")}: {Math.round(currentMeteoData.cloudCover)}%
                         </p>
                         <p className={styles.rain}>
                             <WiRaindrop />
-                            Umidità: {Math.round(currentMeteoData.relativeHumidity)}%
+                            {tmd("humidity")}: {Math.round(currentMeteoData.relativeHumidity)}%
                         </p>
                         <div className={styles.temperature}>
                             <p key={currentMeteoData.temperature}>

@@ -112,5 +112,10 @@
             "title": "5. Änderungen dieser Richtlinie",
             "p1": "Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren, um funktionale Anpassungen der App zu berücksichtigen. Alle Änderungen werden auf dieser Seite mit einem aktualisierten Datum unter 'Zuletzt aktualisiert' veröffentlicht."
         }
+    },
+    "search": {
+        "searchLocation": "Ort suchen...",
+        "loading": "Wird geladen...",
+        "noResults": "Keine Ergebnisse"
     }
 }

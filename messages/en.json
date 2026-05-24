@@ -112,5 +112,10 @@
             "title": "5. Changes to This Policy",
             "p1": "We may update this Privacy Policy from time to time to reflect functional updates to the app. Any changes will be posted on this page with an updated \"Last updated\" date."
         }
+    },
+    "search": {
+        "searchLocation": "Search location...",
+        "loading": "Loading...",
+        "noResults": "No results"
     }
 }

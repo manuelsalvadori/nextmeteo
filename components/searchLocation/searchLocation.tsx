@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { CircleFlag } from "react-circle-flags";
 import styles from "./searchLocation.module.css";
 import clsx from "clsx";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function SearchLocation() {
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -17,6 +17,7 @@ export default function SearchLocation() {
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
     const locale = useLocale();
+    const t = useTranslations("search");
 
     const { data, isLoading } = useQuery({
         queryKey: ["search", debouncedTerm],
@@ -74,7 +75,7 @@ export default function SearchLocation() {
                 onBlur={() => setSelected(false)}
                 onSelect={() => setSelected(true)}
                 onKeyDown={(e) => handleKeys(e)}
-                placeholder={selected ? "" : "Cerca località..."}
+                placeholder={selected ? "" : t("searchLocation")}
             />
             {searchTerm.length > 2 && selected && (
                 <ResultsList
@@ -102,6 +103,8 @@ function ResultsList({
     isTyping: boolean;
     activeIndex: number;
 }) {
+    const t = useTranslations("search");
+
     return (
         <ul className={styles.resultsList}>
             {data && data.length > 0 ? (
@@ -120,7 +123,7 @@ function ResultsList({
                 ))
             ) : (
                 <p style={{ justifySelf: "center" }}>
-                    {isLoading || isTyping ? "Caricamento..." : "Nessun risultato"}
+                    {isLoading || isTyping ? t("loading") : t("noResults")}
                 </p>
             )}
         </ul>

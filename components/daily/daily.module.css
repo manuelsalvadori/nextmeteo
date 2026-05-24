@@ -105,6 +105,8 @@
 
     @media only screen and (max-width: 768px) {
         align-self: center;
+        height: 8rem;
+        width: 8rem;
     }
 }
 
@@ -193,6 +195,10 @@
     margin: 0;
     line-height: 0.9;
     animation: slideBottom 0.3s linear;
+
+    @media only screen and (max-width: 768px) {
+        animation: slideRight 0.3s linear;
+    }
 }
 
 @keyframes float {
@@ -215,6 +221,15 @@
     }
     100% {
         margin-top: 0px;
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(200%);
+    }
+    100% {
+        transform: translate(0);
     }
 }
 

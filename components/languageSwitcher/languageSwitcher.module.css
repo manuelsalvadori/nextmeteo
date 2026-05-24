@@ -56,7 +56,7 @@
     @media only screen and (max-width: 768px) {
         bottom: unset;
         left: unset;
-        top: 100%;
+        top: calc(100% + 1rem);
         right: 0;
         z-index: 999;
     }
