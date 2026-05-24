@@ -190,7 +190,7 @@ export async function getHourlyMeteo(coords: Coordinates, day: number, units: Un
 
         if (currentDateString === targetDateString) {
             hourlyArray.push({
-                time: date,
+                time: date.toISOString(),
                 temperature: temps[i],
                 weatherCode: codes[i],
                 precipitation: precipit[i],
@@ -390,7 +390,7 @@ export type WeeklyMeteoData = z.infer<typeof WeeklyMeteoSchema>;
 
 // hourly schemas
 const HourlyMeteoSchema = z.object({
-    time: z.date(),
+    time: z.string(),
     weatherCode: WeatherCodeSchema,
     temperature: z.number(),
     precipitation: z.number(),
