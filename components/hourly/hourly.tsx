@@ -3,15 +3,13 @@ import styles from "./hourly.module.css";
 import { getTempSymbol, Units, wmoCodes } from "@/utils/utils";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import clsx from "clsx";
 
 export type HourlyProps = {
     data: HourlyMeteoData[];
     units: Units;
-    day: number;
 };
 
-export default async function Hourly({ data, units, day }: HourlyProps) {
+export default async function Hourly({ data, units }: HourlyProps) {
     const tempUnit = getTempSymbol(units.temperature);
 
     return (

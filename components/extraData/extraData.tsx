@@ -96,7 +96,7 @@ export default function ExtraData({ data, units }: ExtraDataProps) {
     };
 
     const chartData = {
-        labels: data.map((d) => `${new Date(d.time).getHours()}:00`),
+        labels: data.map((d) => `${d.time}`),
         datasets: [
             {
                 label: METRIC_CONFIG[selectedMetric].label,
