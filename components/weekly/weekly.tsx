@@ -59,11 +59,11 @@ async function WeeklyCard({ data, href, tempUnit }: HourlyCardProps) {
                 />
                 <div>
                     <p>
-                        {data.temperatureMin.toFixed(0)}
+                        {data.temperatureMax.toFixed(0)}
                         {tempUnit}
                     </p>
                     <p>
-                        {data.temperatureMax.toFixed(0)}
+                        {data.temperatureMin.toFixed(0)}
                         {tempUnit}
                     </p>
                 </div>

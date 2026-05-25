@@ -1,7 +1,7 @@
 .body {
     display: grid;
     grid-template-rows: 2rem 4fr min-content 5fr;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 20fr 8fr;
     column-gap: 1.25rem;
     row-gap: 1rem;
     flex: 1;

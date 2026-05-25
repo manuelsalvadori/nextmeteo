@@ -87,20 +87,20 @@ export default async function Daily({ locationId, location, coords, day, units }
                 <p>
                     <span>
                         <WiThermometer />
-                        {tm("min")}
+                        {tm("max")}
                     </span>
                     <span>
-                        {Math.round(dailyMeteoData.temperatureMin)}
+                        {Math.round(dailyMeteoData.temperatureMax)}
                         {tempUnit}
                     </span>
                 </p>
                 <p>
                     <span>
                         <WiThermometer />
-                        {tm("max")}
+                        {tm("min")}
                     </span>
                     <span>
-                        {Math.round(dailyMeteoData.temperatureMax)}
+                        {Math.round(dailyMeteoData.temperatureMin)}
                         {tempUnit}
                     </span>
                 </p>

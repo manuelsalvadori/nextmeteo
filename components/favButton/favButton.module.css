@@ -11,4 +11,10 @@
     &:focus {
         outline: none;
     }
+
+    @media only screen and (max-width: 768px) {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
 }
