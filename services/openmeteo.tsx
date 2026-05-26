@@ -260,12 +260,13 @@ export async function getCurrentMeteo(
                   cloudCover: daily.variables(7)!.valuesArray()![day],
               });
 
+    const uv = daily.variables(4)!.valuesArray()![day];
     const dailyData = CurrentDailyMeteoSchema.parse({
         temperatureMax: daily.variables(0)!.valuesArray()![day],
         temperatureMin: daily.variables(1)!.valuesArray()![day],
         windSpeedMax: daily.variables(2)!.valuesArray()![day],
         windDirection: daily.variables(3)!.valuesArray()![day],
-        uvIndexMax: daily.variables(4)!.valuesArray()![day],
+        uvIndexMax: Number.isNaN(uv) ? 0 : uv,
         daylightDuration: daily.variables(5)!.valuesArray()![day],
     });
 
